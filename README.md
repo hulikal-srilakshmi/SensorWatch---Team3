@@ -3,6 +3,7 @@
 # **SensorWatch Security Audit Report**
 
 **Date:** November 2025 
+
 **Auditor:** Srilakshmi Hulikal
 
 **Repository:** SensorWatch team 3 - staging
