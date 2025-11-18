@@ -2,14 +2,16 @@
 
 # **SensorWatch Security Audit Report**
 
-**Date:** November 2025 
+</div>
 
-**Auditor:** Srilakshmi Hulikal
+**Date:** November 2025  
 
-**Repository:** SensorWatch team 3 - staging
+**Auditor:** Srilakshmi Hulikal  
+
+**Repository:** SensorWatch team 3 – staging  
 
 **Platform:** ESP32 / ESP32-S3  
+
 **Framework:** PlatformIO + Arduino Core  
 
-</div>
 
