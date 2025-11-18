@@ -8,8 +8,10 @@
 **Auditor:** Srilakshmi Hulikal  
 
 
-**Repository:** SensorWatch team 3 – staging  
+**Repository:** https://github.com/WinWinLabs/SensorWatch/tree/team-3-staging  
 **Platform:** ESP32 / ESP32-S3  
 **Framework:** PlatformIO + Arduino Core  
+
+## **Executive Summary**
 
 
