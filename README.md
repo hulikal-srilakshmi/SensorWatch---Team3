@@ -30,7 +30,7 @@ Overall security posture: **High-Risk / Requires Immediate Hardening**
 
 
 
-## **System Architecture**
+# **System Architecture**
 
 ```text
 ┌───────────────────────────────────────────────────────────────────────────┐
@@ -87,7 +87,7 @@ Overall security posture: **High-Risk / Requires Immediate Hardening**
 
 
 
-## **Data Flow Diagram**
+# **Data Flow Diagram**
 
 ```text
                  +---------------------------+
