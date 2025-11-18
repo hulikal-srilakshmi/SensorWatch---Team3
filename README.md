@@ -26,3 +26,50 @@ This Executive Summary highlights the most important findings:
 
 Overall security posture: **High-Risk / Requires Immediate Hardening** 
 
+
+
+
+
+## Data Flow Diagram
+
+```text
+                 +---------------------------+
+                 |       User Browser        |
+                 |  HTML/JS UI (panels,      |
+                 |  IMU view, LEDs, config)  |
+                 +-------------+-------------+
+                               |
+                       HTTP / WebSocket
+                               |
+        +----------------------v-----------------------+
+        |              SensorWatch Firmware            |
+        |                  (main.cpp)                  |
+        |----------------------------------------------|
+        | - AsyncWebServer HTTP routes                 |
+        |   • dashboard / panels / IMU pages          |
+        |   • connectivity & WiFi config              |
+        |   • filesystem operations (upload, delete)  |
+        |                                              |
+        | - WebSocket server                          |
+        |   • live sensor readings                    |
+        |   • IMU orientation / motion data           |
+        |   • LED / panel preview updates             |
+        |                                              |
+        | - Device control libraries                   |
+        |   • IMUFX / IMUFX_UI                        |
+        |   • NeopixelFX                              |
+        |   • PiezoFX                                 |
+        +-----------+----------------+----------------+
+                    |                |
+          Sensor Input Path     Local Storage Path
+                    |                |
+        +-----------v----+     +-----v----------------+
+        |   Hardware     |     |       LittleFS       |
+        |----------------|     |----------------------|
+        | DS18B20 Temp   |     | /wifi_config.json    |
+        | BMI160 IMU     |     | /labels.json         |
+        | NeoPixel LEDs  |     | /panel-*.json/html   |
+        | Piezo Buzzer   |     | other UI assets      |
+        +----------------+     +----------------------+
+
+
