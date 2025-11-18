@@ -3,10 +3,10 @@
 # **SensorWatch Security Audit Report**
 
 **Date:** November 2025 
-**Auditor:** Generated for repository owner  
+**Auditor:** Srilakshmi Hulikal
 
-**Repository:** SensorWatch-3  
-**Firmware File Reviewed:** `src/main.cpp`  
+**Repository:** SensorWatch team 3 - staging
+
 **Platform:** ESP32 / ESP32-S3  
 **Framework:** PlatformIO + Arduino Core  
 
