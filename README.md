@@ -12,4 +12,17 @@
 
 # **Executive Summary** 
 
+SensorWatch Team 3 – Staging is an ESP32-based IoT firmware that integrates temperature sensing, IMU motion data, NeoPixel LED control, WiFi configuration, and a full web-based management interface. The system relies on a large monolithic `main.cpp` file, multiple custom device-control libraries, and several HTML/JavaScript UIs stored both in LittleFS and within the firmware.
+
+The current architecture provides rich functionality but also exposes a broad attack surface. Several critical risks arise from missing authentication, permissive filesystem access, lack of encryption for WiFi credentials, insecure configuration flows, and unvalidated client inputs across WebSocket and HTTP endpoints.
+
+This Executive Summary highlights the most important findings:
+- The device exposes sensitive operations (filesystem, connectivity, configuration) without authentication.
+- WiFi credentials are stored in plaintext and transmitted without encryption.
+- WebSocket and HTTP endpoints allow user-controlled data without sanitization.
+- File uploads and deletes are unrestricted, enabling overwrite or deletion of core system files.
+- Large embedded HTML/JS interfaces increase exposure to XSS and client-side injection.
+- No rate limiting or access control mechanisms are present, enabling trivial DoS conditions.
+
+Overall security posture: **High-Risk / Requires Immediate Hardening** 
 
