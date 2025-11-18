@@ -87,14 +87,7 @@ Overall security posture: **High-Risk / Requires Immediate Hardening**
 
 
 
-
-
-
-
-
-
-
-## Data Flow Diagram
+## **Data Flow Diagram**
 
 ```text
                  +---------------------------+
