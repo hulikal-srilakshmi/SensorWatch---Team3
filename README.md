@@ -28,12 +28,63 @@ Overall security posture: **High-Risk / Requires Immediate Hardening**
 
 
 
+## **System Architecture**
 
 
-```text
-# ============================
-#      DATA FLOW DIAGRAM
-# ============================
+
+┌───────────────────────────────────────────────────────────────────────────┐
+│                               USER INTERFACE                              │
+│───────────────────────────────────────────────────────────────────────────│
+│  Web Browser (Desktop/Mobile)                                             │
+│   • Dashboard & Charts                                                    │
+│   • IMU 3D Motion View                                                    │
+│   • LED / Neopixel Control Panel                                          │
+│   • WiFi Settings & Device Config                                         │
+│   • File Manager (Upload/Delete/Format)                                   │
+│                                                                           │
+│  ⇣ Sends Commands / Receives Live Data (HTTP + WebSocket over WiFi)       │
+└───────────────────────────────────────────────────────────────────────────┘
+
+                     ╲╱
+
+       ┌──────────────────────────────────────┐
+       │      ESP32 FIRMWARE (main.cpp)       │
+       │──────────────────────────────────────│
+       │  CORE SERVICES                       │
+       │   • HTTP Server (AsyncWebServer)     │
+       │   • WebSocket Server (JSON streams)  │
+       │   • WiFi Manager (AP/STA switching)  │
+       │   • File System (LittleFS)           │
+       │   • Sensor Capture Loop              │
+       │                                      │
+       │  FEATURE MODULES                     │
+       │   • IMUFX / IMUFX_UI   → motion data │
+       │   • NeopixelFX        → LED effects  │
+       │   • PiezoFX           → buzzer tones │
+       │                                      │
+       │  SECURITY-RELEVANT AREAS             │
+       │   • WiFi config handling             │
+       │   • File upload/delete endpoints     │
+       │   • Live WebSocket control surface   │
+       │   • Stored JSON configs              │
+       └──────────────────────────────────────┘
+
+                     ╲╱
+
+┌───────────────────────────────────────────────────────────────────────────┐
+│                               HARDWARE LAYER                              │
+│───────────────────────────────────────────────────────────────────────────│
+│  DS18B20  – Temperature Sensors                                            │
+│  BMI160   – IMU (Gyro + Accelerometer)                                     │
+│  WS2812B  – NeoPixel RGB LEDs                                              │
+│ 
+
+
+
+
+
+
+## **Data Flow Diagram**
 
                  USER BROWSER
          (Desktop / Mobile, JS UI)
@@ -68,62 +119,3 @@ Overall security posture: **High-Risk / Requires Immediate Hardening**
             HARDWARE LAYER
     DS18B20 | BMI160 | NeoPixel | Piezo
 
-
-
-# ============================
-#     SYSTEM ARCHITECTURE
-# ============================
-
-┌───────────────────────────────────────────────────────────────────────────┐
-│                               USER INTERFACE                              │
-│───────────────────────────────────────────────────────────────────────────│
-│  Web Browser (Desktop/Mobile)                                             │
-│   • Dashboard & Charts                                                    │
-│   • IMU 3D Motion View                                                    │
-│   • LED / Neopixel Control Panel                                          │
-│   • WiFi Settings & Device Config                                         │
-│   • File Manager (Upload/Delete/Format)                                   │
-│                                                                           │
-│  ⇣  Sends Commands / Receives Live Data (HTTP + WebSocket over WiFi)      │
-└───────────────────────────────────────────────────────────────────────────┘
-
-                     ╲╱
-       ┌──────────────────────────────────────┐
-       │      ESP32 FIRMWARE (main.cpp)       │
-       │──────────────────────────────────────│
-       │  CORE SERVICES                       │
-       │   • HTTP Server (AsyncWebServer)     │
-       │   • WebSocket Server (JSON streams)  │
-       │   • WiFi Manager (AP/STA switching)  │
-       │   • File System (LittleFS)           │
-       │   • Sensor Capture Loop              │
-       │                                      │
-       │  FEATURE MODULES                     │
-       │   • IMUFX / IMUFX_UI   → motion data │
-       │   • NeopixelFX        → LED effects  │
-       │   • PiezoFX           → buzzer tones │
-       │                                      │
-       │  SECURITY-RELEVANT AREAS             │
-       │   • WiFi config handling             │
-       │   • File upload/delete endpoints     │
-       │   • Live WebSocket control surface   │
-       │   • Stored JSON configs              │
-       └──────────────────────────────────────┘
-
-                     ╲╱
-┌───────────────────────────────────────────────────────────────────────────┐
-│                               HARDWARE LAYER                              │
-│───────────────────────────────────────────────────────────────────────────│
-│  DS18B20  – Temperature Sensors                                            │
-│  BMI160   – IMU (Gyro + Accelerometer)                                     │
-│  WS2812B  – NeoPixel RGB LEDs                                              │
-│  Piezo    – Buzzer                                                         │
-│                                                                           │
-│  ⇣ Data & Signals via GPIO / I²C / SPI / 1-Wire                            │
-└───────────────────────────────────────────────────────────────────────────┘
-
-                           OVERALL DATA FLOW
-           ┌────────────────────────────────────────────────┐
-           │ User Browser ⇄ ESP32 Firmware ⇄ Hardware Layer │
-           └────────────────────────────────────────────────┘
-```
