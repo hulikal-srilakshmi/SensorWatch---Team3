@@ -80,11 +80,14 @@ Overall security posture: **High-Risk / Requires Immediate Hardening**
 │ 
 
 
+```text
 
 
 
 
 ## **Data Flow Diagram**
+
+```text
 
                  USER BROWSER
          (Desktop / Mobile, JS UI)
