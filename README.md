@@ -30,6 +30,44 @@ Overall security posture: **High-Risk / Requires Immediate Hardening**
 
 
 
+# **Data Flow Diagram** 
+
+```text
+                 USER BROWSER
+         (Desktop / Mobile, JS UI)
+        ----------------------------
+        - Dashboards / Charts
+        - IMU & LED controls
+        - WiFi & config pages
+        - File manager UI
+                 |
+                 |  HTTP + WebSocket
+                 |  (JSON, form data)
+─────────────────┼────────────────────────
+   TRUST BOUNDARY #1 – Untrusted Client
+─────────────────┼────────────────────────
+                 |
+                 v
+            ESP32 FIRMWARE
+           (main.cpp core)
+     ------------------------------
+     - HTTP server / WebSocket
+     - WiFi manager
+     - LittleFS storage
+     - Sensor capture loop
+     - IMUFX / NeopixelFX / PiezoFX
+                 |
+                 |  GPIO / I²C / SPI / 1-Wire
+─────────────────┼────────────────────────
+  TRUST BOUNDARY #2 – Firmware vs Hardware
+─────────────────┼────────────────────────
+                 |
+                 v
+            HARDWARE LAYER
+    DS18B20 | BMI160 | NeoPixel | Piezo
+
+
+
 # **System Architecture**
 
 ```text
@@ -88,39 +126,3 @@ Overall security posture: **High-Risk / Requires Immediate Hardening**
 
 
 
-
-# **Data Flow Diagram** 
-
-```text
-                 USER BROWSER
-         (Desktop / Mobile, JS UI)
-        ----------------------------
-        - Dashboards / Charts
-        - IMU & LED controls
-        - WiFi & config pages
-        - File manager UI
-                 |
-                 |  HTTP + WebSocket
-                 |  (JSON, form data)
-─────────────────┼────────────────────────
-   TRUST BOUNDARY #1 – Untrusted Client
-─────────────────┼────────────────────────
-                 |
-                 v
-            ESP32 FIRMWARE
-           (main.cpp core)
-     ------------------------------
-     - HTTP server / WebSocket
-     - WiFi manager
-     - LittleFS storage
-     - Sensor capture loop
-     - IMUFX / NeopixelFX / PiezoFX
-                 |
-                 |  GPIO / I²C / SPI / 1-Wire
-─────────────────┼────────────────────────
-  TRUST BOUNDARY #2 – Firmware vs Hardware
-─────────────────┼────────────────────────
-                 |
-                 v
-            HARDWARE LAYER
-    DS18B20 | BMI160 | NeoPixel | Piezo
