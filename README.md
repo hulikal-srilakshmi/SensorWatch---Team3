@@ -30,9 +30,11 @@ Overall security posture: **High-Risk / Requires Immediate Hardening**
 
 
 
-# **Data Flow Diagram**
-
 ```text
+# ============================
+#      DATA FLOW DIAGRAM
+# ============================
+
                  USER BROWSER
          (Desktop / Mobile, JS UI)
         ----------------------------
@@ -60,7 +62,7 @@ Overall security posture: **High-Risk / Requires Immediate Hardening**
                  |  GPIO / I²C / SPI / 1-Wire
 ─────────────────┼────────────────────────
   TRUST BOUNDARY #2 – Firmware vs Hardware
-─────────────────┼────────────────────────
+───────────────────────────────────────────
                  |
                  v
             HARDWARE LAYER
@@ -68,8 +70,9 @@ Overall security posture: **High-Risk / Requires Immediate Hardening**
 
 
 
-# **System Architecture**
-
+# ============================
+#     SYSTEM ARCHITECTURE
+# ============================
 
 ┌───────────────────────────────────────────────────────────────────────────┐
 │                               USER INTERFACE                              │
@@ -106,6 +109,7 @@ Overall security posture: **High-Risk / Requires Immediate Hardening**
        │   • Live WebSocket control surface   │
        │   • Stored JSON configs              │
        └──────────────────────────────────────┘
+
                      ╲╱
 ┌───────────────────────────────────────────────────────────────────────────┐
 │                               HARDWARE LAYER                              │
@@ -122,7 +126,4 @@ Overall security posture: **High-Risk / Requires Immediate Hardening**
            ┌────────────────────────────────────────────────┐
            │ User Browser ⇄ ESP32 Firmware ⇄ Hardware Layer │
            └────────────────────────────────────────────────┘
-
-
-
-
+```
