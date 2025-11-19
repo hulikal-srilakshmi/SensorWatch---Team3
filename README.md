@@ -89,57 +89,36 @@ Overall security posture: **High-Risk / Requires Immediate Hardening**
 
 ## **Data Flow Diagram**
 
-
-
 ```text
-                        ┌───────────────────────────────┐
-                        │        USER BROWSER           │
-                        │  (Desktop / Mobile, JS UI)    │
-                        │-------------------------------│
-                        │ - Dashboards / Charts         │
-                        │ - IMU & LED controls          │
-                        │ - WiFi & config pages         │
-                        │ - File manager UI             │
-                        └───────────────┬───────────────┘
-                                        │
-                                        │  HTTP + WebSocket
-                                        │  (JSON, form data)
-                                        │
-                 ───────────────────────┼────────────────────────
-                 ▲                      │                     ▲
-                 │        TRUST BOUNDARY #1:                  │
-                 │  Untrusted Client → SensorWatch Device     │
-                 ──────────────────────────────────────────────
-
-                                        │
-                                        v
-                        ┌───────────────────────────────┐
-                        │       ESP32 FIRMWARE          │
-                        │        (main.cpp)             │
-                        │-------------------------------│
-                        │ - HTTP server (AsyncWebServer)│
-                        │ - WebSocket server            │
-                        │ - WiFi manager (AP/STA)       │
-                        │ - LittleFS (JSON configs)     │
-                        │ - Capture & sensor logic      │
-                        │ - IMUFX / NeopixelFX / PiezoFX│
-                        └───────────────┬───────────────┘
-                                        │
-                                        │  GPIO / I²C / SPI / 1-Wire
-                                        │
-                 ───────────────────────┼────────────────────────
-                 ▲                      │                     ▲
-                 │        TRUST BOUNDARY #2:                  │
-                 │   Firmware Logic → Physical Hardware       │
-                 ──────────────────────────────────────────────
-
-                                        │
-                                        v
-                        ┌───────────────────────────────┐
-                        │        HARDWARE LAYER         │
-                        │-------------------------------│
-                        │ - DS18B20 temperature sensors │
-                        │ - BMI160 IMU                  │
-                        │ - NeoPixel LEDs               │
-                        │ - Piezo buzzer                │
-                        └───────────────────────────────┘
+               USER BROWSER
+         (Desktop / Mobile, JS UI)
+        -----------------------------
+        - Dashboards / Charts
+        - IMU & LED controls
+        - WiFi & config pages
+        - File manager UI
+                 |
+                 |  HTTP + WebSocket
+                 |  (JSON, form data)
+─────────────────┼────────────────────────
+  TRUST BOUNDARY #1 – Untrusted Client
+─────────────────┼────────────────────────
+                 |
+                 v
+           ESP32 FIRMWARE
+       (main.cpp — core logic)
+     ------------------------------
+     - HTTP server / WebSocket
+     - Sensor capture loop
+     - WiFi manager
+     - LittleFS storage
+     - IMUFX / NeopixelFX / PiezoFX
+                 |
+                 |  GPIO / I²C / SPI / 1-Wire
+─────────────────┼────────────────────────
+    TRUST BOUNDARY #2 – Firmware → Hardware
+─────────────────┼────────────────────────
+                 |
+                 v
+            HARDWARE LAYER
+   DS18B20 | BMI160 | NeoPixel | Piezo
