@@ -28,7 +28,7 @@ Overall security posture: **High-Risk / Requires Immediate Hardening**
 
 
 
-## **System Architecture**
+# **System Architecture**
 
 
 ```text
@@ -87,7 +87,6 @@ Overall security posture: **High-Risk / Requires Immediate Hardening**
 ## **Data Flow Diagram**
 
 ```text
-
                  USER BROWSER
          (Desktop / Mobile, JS UI)
         ----------------------------
