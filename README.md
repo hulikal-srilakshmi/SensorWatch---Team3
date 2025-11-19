@@ -33,6 +33,7 @@ Overall security posture: **High-Risk / Requires Immediate Hardening**
 # **System Architecture**
 
 ```text
+
 ┌───────────────────────────────────────────────────────────────────────────┐
 │                               USER INTERFACE                              │
 │───────────────────────────────────────────────────────────────────────────│
