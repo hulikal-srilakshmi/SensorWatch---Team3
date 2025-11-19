@@ -77,7 +77,9 @@ Overall security posture: **High-Risk / Requires Immediate Hardening**
 │  DS18B20  – Temperature Sensors                                            │
 │  BMI160   – IMU (Gyro + Accelerometer)                                     │
 │  WS2812B  – NeoPixel RGB LEDs                                              │
-│ 
+│  Piezo    – Buzzer                                                         │
+└───────────────────────────────────────────────────────────────────────────┘
+
 
 
 
