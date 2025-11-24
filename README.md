@@ -124,3 +124,35 @@ Overall security posture: **High-Risk / Requires Immediate Hardening**
             HARDWARE LAYER
     DS18B20 | BMI160 | NeoPixel | Piezo
 
+
+```
+
+
+
+# **Technology Stack**
+
+| **Layer**      | **Technology**              | **Purpose** |
+|----------------|-----------------------------|-------------|
+| **Hardware**   | ESP32-S3                    | Main microcontroller (WiFi, WebSocket, HTTP, GPIO) |
+|                | DS18B20                     | Temperature sensors (1-Wire) |
+|                | BMI160                      | 6-axis IMU (Gyro + Accelerometer via SPI/I²C) |
+|                | WS2812B NeoPixel            | RGB LED output |
+|                | Piezo Buzzer                | Audio feedback / alert tones |
+| **Firmware**   | Arduino Core (ESP32)        | Development framework |
+|                | PlatformIO                  | Build system & dependency manager |
+|                | AsyncWebServer              | Non-blocking HTTP server |
+|                | AsyncTCP                    | TCP backend for AsyncWebServer |
+|                | ArduinoJson                 | JSON parsing / encoding for API & WebSocket |
+|                | LittleFS                    | On-chip filesystem (HTML, CSS, JS, JSON) |
+|                | OneWire / DallasTemperature | DS18B20 temperature drivers |
+| **Libraries**  | IMUFX                       | IMU sensor processing |
+|                | IMUFX_UI                    | IMU web interface logic |
+|                | NeopixelFX                  | LED animation & effects |
+|                | PiezoFX                     | Buzzer tone engine |
+| **Web**        | HTML / CSS / JavaScript     | Browser UI hosted from ESP32 |
+|                | WebSockets                  | Real-time IMU + sensor streaming |
+|                | JSON (HTTP/WebSocket)       | Live telemetry & configuration messages |
+| **External API** | HTTP POST (optional)      | Remote server telemetry upload |
+
+
+
