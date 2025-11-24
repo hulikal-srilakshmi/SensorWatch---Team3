@@ -156,3 +156,74 @@ Overall security posture: **High-Risk / Requires Immediate Hardening**
 
 
 
+
+
+
+
+
+
+
+# **File Structure Overview**
+
+
+```text
+SensorWatch-3/
+├── .github/
+│   └── workflows/
+│       └── ci-platformio.yml
+│
+├── .vscode/
+│   └── extensions.json
+│
+├── data/
+│   ├── wifi_config.json
+│   ├── imu.html
+│   └── favicon.ico
+│
+├── docs/
+│
+├── include/
+│
+├── lib/
+│   ├── IMUFX/
+│   │   ├── IMUFX.cpp
+│   │   ├── IMUFX.h
+│   │   └── README.md
+│   │
+│   ├── IMUFX_UI/
+│   │   ├── src/
+│   │   │   ├── IMUFX_UI.cpp
+│   │   │   └── IMUFX_UI.h
+│   │   ├── assets/
+│   │   └── library.json
+│   │
+│   ├── NeopixelFX/
+│   │   ├── NeopixelFX.cpp
+│   │   ├── NeopixelFX.h
+│   │   └── library.json
+│   │
+│   ├── PiezoFX/
+│   │   ├── src/
+│   │   │   ├── PiezoFX.cpp
+│   │   │   └── PiezoFX.h
+│   │   └── library.json
+│
+├── scripts/
+│   └── fix_com.p1.ps1
+│
+├── src/
+│   ├── main.cpp
+│   ├── SensorWatch.code-workspace
+│   ├── test_bmi160_daq.cpp
+│   ├── test_bmi160.cpp
+│   └── temp_real_main.cpp
+│
+├── test/
+│
+├── tools/
+│
+├── .gitignore
+├── platformio.ini
+└── CONTRIBUTING.md
+
+```
