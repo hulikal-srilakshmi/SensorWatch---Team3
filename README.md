@@ -222,3 +222,70 @@ SensorWatch/
 └── CONTRIBUTING.md
 
 ```
+
+
+
+
+## **Network Communication Flow**
+
+```text
+                  USER BROWSER
+           (Desktop / Mobile, JS UI)
+          ----------------------------
+          - Opens SensorWatch URL
+          - Loads HTML/CSS/JS
+          - Sends config / control actions
+          - Receives live sensor + IMU data
+                     |
+                     |  HTTP (GET / POST) + WebSocket
+                     |  over WiFi
+─────────────────────┼──────────────────────────────
+  TRUST BOUNDARY #1 – Untrusted Client / Local LAN
+─────────────────────┼──────────────────────────────
+                     |
+                     v
+             LOCAL WIFI NETWORK
+          (Home / Lab Router or AP)
+          ----------------------------
+          - Routes HTTP/WebSocket traffic
+          - Forwards packets to ESP32
+          - May bridge to wider Internet
+                     |
+                     |  WiFi STA (ESP32 joins LAN)
+                     |  or Soft-AP (client joins ESP32)
+─────────────────────┼──────────────────────────────
+  TRUST BOUNDARY #2 – Network vs Device Firmware
+─────────────────────┼──────────────────────────────
+                     |
+                     v
+                 ESP32 DEVICE
+               (SensorWatch-3)
+          ----------------------------
+          - AsyncWebServer (HTTP)
+          - WebSocket server (/ws)
+          - LittleFS file serving
+          - WiFi config endpoints
+          - File manager endpoints
+          - Optional OTA/update handler
+                     |
+     ┌───────────────┼─────────────────────┐
+     |               |                     |
+     v               v                     v
+  STATIC UI      CONTROL API         LIVE DATA STREAM
+(HTML/CSS/JS)   (HTTP endpoints)     (WebSocket JSON)
+  ---------      ---------------     ----------------
+- Served from    - /connectivity     - Sensor readings
+  LittleFS         (WiFi config)     - IMU data
+- Loaded once    - /list-files       - LED / IMU status
+  in browser     - /download         - Status updates
+                 - /upload-file
+                 - /format-fs
+
+                     |
+                     |  (optional, if enabled)
+                     v
+          REMOTE / CLOUD ENDPOINTS
+          ----------------------------
+          - HTTP POST telemetry
+          - Remote dashboards / APIs
+```
