@@ -27,6 +27,7 @@ This Executive Summary highlights the most important findings:
 Overall security posture: **High-Risk / Requires Immediate Hardening** 
 
 
+---
 
 # **System Architecture**
 
