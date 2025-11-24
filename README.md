@@ -28,7 +28,7 @@ Overall security posture: **High-Risk / Requires Immediate Hardening**
 
 
 
-## **System Architecture**
+# **System Architecture**
 
 
 ```text
@@ -131,6 +131,7 @@ Overall security posture: **High-Risk / Requires Immediate Hardening**
 
 ## **Technology Stack**
 
+```text 
 | **Layer**      | **Technology**              | **Purpose** |
 |----------------|-----------------------------|-------------|
 | **Hardware**   | ESP32-S3                    | Main microcontroller (WiFi, WebSocket, HTTP, GPIO) |
@@ -154,7 +155,7 @@ Overall security posture: **High-Risk / Requires Immediate Hardening**
 |                | JSON (HTTP/WebSocket)       | Live telemetry & configuration messages |
 | **External API** | HTTP POST (optional)      | Remote server telemetry upload |
 
-
+```
 
 
 
