@@ -28,7 +28,7 @@ Overall security posture: **High-Risk / Requires Immediate Hardening**
 
 
 
-# **System Architecture**
+## **System Architecture**
 
 
 ```text
@@ -86,7 +86,7 @@ Overall security posture: **High-Risk / Requires Immediate Hardening**
 
 
 
-# **Data Flow Diagram**
+## **Data Flow Diagram**
 
 
 
@@ -129,7 +129,7 @@ Overall security posture: **High-Risk / Requires Immediate Hardening**
 
 
 
-# **Technology Stack**
+## **Technology Stack**
 
 | **Layer**      | **Technology**              | **Purpose** |
 |----------------|-----------------------------|-------------|
@@ -158,7 +158,7 @@ Overall security posture: **High-Risk / Requires Immediate Hardening**
 
 
 
-# **File Structure Overview**
+## **File Structure Overview**
 
 
 ```text
