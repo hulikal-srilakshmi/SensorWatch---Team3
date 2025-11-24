@@ -167,7 +167,7 @@ Overall security posture: **High-Risk / Requires Immediate Hardening**
 
 
 ```text
-SensorWatch-3/
+SensorWatch/
 ├── .github/
 │   └── workflows/
 │       └── ci-platformio.yml
