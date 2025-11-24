@@ -290,3 +290,18 @@ SensorWatch/
           - HTTP POST telemetry
           - Remote dashboards / APIs
 ```
+
+## **Estimated Lines of Code**
+
+'''text
+
+| **Component**        | **Files** | **Est. Lines** | **Description**                          |
+|----------------------|-----------|----------------|------------------------------------------|
+| Main Application     | 1         | ~3,200         | Core firmware logic in `src/main.cpp`    |
+| Custom Libraries     | 4         | ~1,000         | IMUFX, IMUFX_UI, NeopixelFX, PiezoFX     |
+| Test Programs        | 3         | ~300           | `test_bmi160.cpp`, `test_bmi160_daq.cpp`, `temp_real_main.cpp` |
+| Web / HTML Assets    | 2         | ~200           | `data/imu.html`, small UI assets         |
+| Config / Metadata    | 4         | ~150           | `wifi_config.json`, `platformio.ini`, workspace, misc. |
+| **Total (Approx.)**  | **14**    | **~4,800**     | Overall estimated codebase size          |
+
+'''
