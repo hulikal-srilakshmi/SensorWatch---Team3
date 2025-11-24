@@ -80,7 +80,7 @@ Overall security posture: **High-Risk / Requires Immediate Hardening**
 │  Piezo    – Buzzer                                                         │
 └───────────────────────────────────────────────────────────────────────────┘
 
-
+```
 
 
 
