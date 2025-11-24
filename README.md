@@ -293,7 +293,6 @@ SensorWatch/
 
 ## **Estimated Lines of Code**
 
-'''text
 
 | **Component**        | **Files** | **Est. Lines** | **Description**                          |
 |----------------------|-----------|----------------|------------------------------------------|
@@ -304,4 +303,4 @@ SensorWatch/
 | Config / Metadata    | 4         | ~150           | `wifi_config.json`, `platformio.ini`, workspace, misc. |
 | **Total (Approx.)**  | **14**    | **~4,800**     | Overall estimated codebase size          |
 
-'''
+
