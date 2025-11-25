@@ -27,6 +27,31 @@ This Executive Summary highlights the most important findings:
 Overall security posture: **High-Risk / Requires Immediate Hardening** 
 
 
+
+## Executive Summary
+
+- **CRITICAL:** 39 findings  
+- **HIGH:** 39 findings  
+- **MEDIUM:** 16 findings  
+- **LOW:** 38 findings  
+
+The most dangerous issues involve:
+
+1. Hardcoded passwords, WiFi creds, API keys  
+2. Unauthenticated OTA & admin routes  
+3. Unsigned firmware + no validation  
+4. Cleartext storage of sensitive data  
+5. Use of insecure PowerShell constructs (IEX, dynamic args)
+
+Immediate remediation should focus on:
+
+- Strong authentication for all management/OTA/admin endpoints  
+- Removing and rotating all hardcoded credentials  
+- Mandatory cryptographic firmware signing  
+- Encrypting credentials at rest  
+- Migrating all HTTP → HTTPS  
+
+
 ---
 
 # **System Architecture**
