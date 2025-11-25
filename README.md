@@ -321,3 +321,95 @@ SensorWatch/
 
 <img width="1636" height="590" alt="image" src="https://github.com/user-attachments/assets/63c7bc94-0e53-465c-9024-fb5c85cc3034" />
 
+
+
+
+# Semgrep Vulnerability Report
+
+This report consolidates findings from:
+- `semgrep-results.txt`
+- `ota-results.txt`
+- `ps-results.txt`
+- `web-results.txt`
+
+All vulnerabilities include **severity**, **count**, **CVSS**, **impact**, and **recommendation**.
+
+---
+
+## Vulnerability Summary (Table)
+
+| Vulnerability Name | Severity | Count | CVSS | Impact | Recommendation |
+| --- | --- | --- | --- | --- | --- |
+| Hardcoded credentials in firmware/logs | CRITICAL | 26 | 9.8 | Credentials embedded in firmware/logs allow takeover of WiFi, APIs, backend. | Remove hardcoded secrets, load from secure storage, rotate exposed keys. |
+| Hardcoded WiFi credentials | CRITICAL | 6 | 9.8 | Extraction allows joining same WiFi/AP impersonation → full device/network compromise. | Implement secure provisioning, eliminate defaults, require user-provided creds. |
+| Unauthenticated OTA update endpoint | CRITICAL | 2 | 9.8 | Allows arbitrary firmware uploads → persistent malicious firmware. | Strong auth (mTLS/tokens), require cryptographically signed firmware. |
+| Hardcoded credentials in telemetry client | CRITICAL | 2 | 9.8 | Hardcoded API keys enable attacker access to backend endpoints. | Remove keys from code, rotate, use per-device secrets. |
+| OTA UI route without authentication | CRITICAL | 1 | 9.8 | Browser UI can upload firmware without auth → full takeover. | Enforce strict auth, restrict network exposure. |
+| OTA `/update` raw route unauthenticated | CRITICAL | 1 | 9.8 | POSTing firmware without auth gives attackers code execution. | Lock endpoint behind authentication + signature checks. |
+| Filesystem admin panel without auth | CRITICAL | 1 | 9.1 | Exposes upload/delete/format → complete storage compromise. | Add strong auth, role checks, compile-out for production. |
+| Unencrypted credential storage | HIGH | 5 | 7.5 | WiFi/API keys in cleartext on flash → easy extraction. | Encrypt with device keys, rotate, mask in logs. |
+| Unprotected filesystem writes | HIGH | 4 | 7.5 | Attackers can overwrite config/data. | Auth required, validate filenames, log operations. |
+| Unprotected filesystem format | HIGH | 2 | 8.2 | Attackers can wipe all device data. | Protect behind admin auth + confirmation guardrails. |
+| Weak OTA validation (no size/type/integrity checks) | HIGH | 2 | 8.0 | Malformed/malicious image can brick or hijack device. | Enforce max size, MIME checks, mandatory checksum/signature. |
+| Unprotected filesystem delete | HIGH | 2 | 7.5 | Attackers wipe config/logs/data. | Auth + validation + audit logs. |
+| Plain HTTP backend | HIGH | 1 | 7.5 | Exposes traffic to MITM/sniffing. | Switch to HTTPS + certificate validation. |
+| WebSocket control channel without auth | HIGH | 1 | 8.0 | Real-time remote control exposed without protection. | Require auth tokens, validate origin, restrict commands. |
+| OTA update without signature check | HIGH | 1 | 8.6 | Device accepts unsigned firmware. | Implement RSA/ECDSA signing + public key verification. |
+| PowerShell Invoke-Expression | HIGH | 1 | 8.0 | Allows arbitrary code execution. | Remove IEX, use direct cmdlets, validate inputs. |
+| Plain HTTP URLs in scripts | MEDIUM | 4 | 5.9 | Sensitive data exposed to sniffing/tampering. | Replace with HTTPS + enforce TLS validation. |
+| Remote reboot route without access control | MEDIUM | 2 | 5.0 | Attackers can DoS device by repeatedly rebooting it. | Admin-only auth + rate limiting + logging. |
+| Inline scripts (XSS surface) | MEDIUM | 2 | 5.4 | Inline JS breaks CSP and allows XSS if data injected. | External JS files + strict CSP. |
+| Dynamic JS exec logic | MEDIUM | 1 | 5.3 | Possible injection if user input flows in. | Validate inputs, remove dynamic parsing. |
+| PowerShell Start-Process dynamic args | MEDIUM | 1 | 6.5 | Injection via arguments. | Whitelist args, avoid string concatenation. |
+| Remote PS execution (Invoke-Command) | MEDIUM | 1 | 6.8 | Lateral movement risk. | Lock hosts, enforce strong auth. |
+| Weak hash algorithms (MD5/SHA1) | MEDIUM | 1 | 5.0 | Hash collisions → bypass integrity checks. | Upgrade to SHA-256. |
+| Unsafe C-style casts | LOW | 25 | 2.5 | Undefined behavior, possible memory corruption. | Replace with static_cast/reinterpret_cast, validate ranges. |
+| Manual memory mgmt without delete | LOW | 11 | 3.1 | Memory leaks → long-term instability / soft DoS. | Use RAII, smart pointers. |
+| Hardcoded IP address | LOW | 2 | 3.1 | Magic IP values cause unpredictable behavior. | Replace with proper network state/error handling. |
+
+---
+
+## Executive Summary
+
+- **CRITICAL:** 39 findings  
+- **HIGH:** 39 findings  
+- **MEDIUM:** 16 findings  
+- **LOW:** 38 findings  
+
+The most dangerous issues involve:
+
+1. Hardcoded passwords, WiFi creds, API keys  
+2. Unauthenticated OTA & admin routes  
+3. Unsigned firmware + no validation  
+4. Cleartext storage of sensitive data  
+5. Use of insecure PowerShell constructs (IEX, dynamic args)
+
+Immediate remediation should focus on:
+
+- Strong authentication for all management/OTA/admin endpoints  
+- Removing and rotating all hardcoded credentials  
+- Mandatory cryptographic firmware signing  
+- Encrypting credentials at rest  
+- Migrating all HTTP → HTTPS  
+
+---
+
+## Detailed Findings Per Severity
+
+### 🔥 CRITICAL Vulnerabilities
+(Include detailed explanations from the table above)
+
+### 🚨 HIGH Vulnerabilities
+(Include detailed explanations from the table above)
+
+### ⚠️ MEDIUM Vulnerabilities
+(Include detailed explanations from the table above)
+
+### 🟢 LOW Vulnerabilities
+(Include detailed explanations from the table above)
+
+---
+
+## End of Report
+
+
