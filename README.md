@@ -318,3 +318,6 @@ SensorWatch/
 
 
 # *Scan with custom rules*
+
+<img width="1636" height="590" alt="image" src="https://github.com/user-attachments/assets/63c7bc94-0e53-465c-9024-fb5c85cc3034" />
+
