@@ -1,0 +1,909 @@
+                     
+                     
+┌───────────────────┐
+│ 216 Code Findings │
+└───────────────────┘
+                                           
+  [36m[22m[24m  SensorWatch\src\main.cpp[0m
+    ❯❱ SensorWatch.cpp-dangerous-c-style-cast
+          C-style cast used. Prefer static_cast/dynamic_cast/reinterpret_cast.
+                                                                              
+           14┆ * All HTML pages are stored in flash (using PROGMEM) to conserve RAM.
+            ⋮┆----------------------------------------
+           58┆ // Try (and retry) esp_event handler registration. Some Arduino cores do not
+            ⋮┆----------------------------------------
+           60┆ // ESP_ERR_INVALID_STATE. Call this after WiFi.mode(...) to increase chances
+            ⋮┆----------------------------------------
+           63┆ #if defined(BOARD_ESP32_S3) || defined(BOARD_ESP32)
+           64┆   if (g_espEventHandlerRegistered) return;
+            ⋮┆----------------------------------------
+           64┆ if (g_espEventHandlerRegistered) return;
+            ⋮┆----------------------------------------
+           72┆ wifi_event_sta_disconnected_t* d = (wifi_event_sta_disconnected_t*)event_data;
+            ⋮┆----------------------------------------
+           88┆ wifi_event_sta_disconnected_t* d = (wifi_event_sta_disconnected_t*)event_data;
+            ⋮┆----------------------------------------
+           89┆ Serial.printf("[ESP_EVT] (fallback) STA_DISCONNECTED: reason=%d
+               bssid=%02X:%02X:%02X:%02X:%02X:%02X\n",                        
+            ⋮┆----------------------------------------
+          103┆ snprintf(errbuf, sizeof(errbuf), "instance=%d(%s) fallback=%d(%s)", (int)_er, en?en:"?",
+               (int)_er2, en2?en2:"?");                                                                
+            ⋮┆----------------------------------------
+          103┆ snprintf(errbuf, sizeof(errbuf), "instance=%d(%s) fallback=%d(%s)", (int)_er, en?en:"?",
+               (int)_er2, en2?en2:"?");                                                                
+            ⋮┆----------------------------------------
+          103┆ snprintf(errbuf, sizeof(errbuf), "instance=%d(%s) fallback=%d(%s)", (int)_er, en?en:"?",
+               (int)_er2, en2?en2:"?");                                                                
+   
+    ❯❱ SensorWatch.cpp-hardcoded-credential-literal
+          Possible hardcoded credential in string literal.
+                                                          
+          105┆     Serial.printf("[DIAG] esp_event handler register attempt %d failed: %s\n", attempt+1,
+               errbuf);                                                                                 
+          106┆     delay(retryDelayMs);
+          107┆   }
+          108┆ #endif
+          109┆ }
+          110┆
+          111┆ // --- IMU globals ---
+          112┆ IMUFX imu;
+          113┆ ImuSample imuS;
+          114┆ bool imuEnabled = false;
+             [hid 39 additional lines, adjust with --max-lines-per-finding] 
+   
+    ❯❱ SensorWatch.cpp-dangerous-c-style-cast
+          C-style cast used. Prefer static_cast/dynamic_cast/reinterpret_cast.
+                                                                              
+          133┆ // Hint for expected sensor count (not a hard rule; used to trigger recovery attempts)
+          134┆ static const int expectedSensorCountHint = 3;
+            ⋮┆----------------------------------------
+          145┆ #define NEO_LOGF(...) do { Serial.printf(__VA_ARGS__); } while(0)
+            ⋮┆----------------------------------------
+          146┆ #define NEO_LOGln(msg) do { Serial.println(msg); } while(0)
+   
+     ❱ SensorWatch.cpp-new-no-delete
+          Manual 'new' used; ensure matching delete and consider RAII.
+                                                                      
+          182┆ let ws = new WebSocket(`ws://${window.location.host}/ws`);
+   
+    ❯❱ SensorWatch.cpp-dangerous-c-style-cast
+          C-style cast used. Prefer static_cast/dynamic_cast/reinterpret_cast.
+                                                                              
+          191┆ if (data.type && data.type === 'imu') return;
+   
+    ❯❱ SensorWatch.cpp-exec-call
+          Use of exec* call; ensure arguments are validated and not attacker-controlled.
+                                                                                        
+          418┆ const hexToRgb=(hex)=>{ const m=/^#?([0-9a-f]{6})$/i.exec(hex); if(!m) return             
+               {r:0,g:255,b:0}; const n=parseInt(m[1],16); return {r:(n>>16)&255,g:(n>>8)&255,b:(n)&255};
+               };                                                                                        
+   
+    ❯❱ SensorWatch.cpp-dangerous-c-style-cast
+          C-style cast used. Prefer static_cast/dynamic_cast/reinterpret_cast.
+                                                                              
+          418┆ const hexToRgb=(hex)=>{ const m=/^#?([0-9a-f]{6})$/i.exec(hex); if(!m) return             
+               {r:0,g:255,b:0}; const n=parseInt(m[1],16); return {r:(n>>16)&255,g:(n>>8)&255,b:(n)&255};
+               };                                                                                        
+            ⋮┆----------------------------------------
+          419┆ const statusMsg=(msg,ok=true)=>{ const s=$('#status'); if(!s) return; s.textContent=msg;
+               s.style.color=ok?'#9bd3ff':'#ff8080'; };                                                
+            ⋮┆----------------------------------------
+          425┆ return fetch(url).then(r=>{ log('â†�', r.status, r.statusText); if(!r.ok) throw new
+               Error(r.status); return r; })                                                      
+   
+     ❱ SensorWatch.cpp-new-no-delete
+          Manual 'new' used; ensure matching delete and consider RAII.
+                                                                      
+          425┆ return fetch(url).then(r=>{ log('â†�', r.status, r.statusText); if(!r.ok) throw new
+               Error(r.status); return r; })                                                      
+   
+    ❯❱ SensorWatch.cpp-dangerous-c-style-cast
+          C-style cast used. Prefer static_cast/dynamic_cast/reinterpret_cast.
+                                                                              
+          445┆ const p=cv.getContext('2d').getImageData(x,y,1,1).data; if(p[3]===0) return;
+            ⋮┆----------------------------------------
+          452┆ function setHex(h){ if(!/^#?[0-9a-f]{6}$/i.test(h))return; if(h[0]!=='#')h='#'+h; const
+               {r,g,b}=hexToRgb(h);                                                                   
+            ⋮┆----------------------------------------
+          464┆ for(let gy=0;gy<7;gy++){const row=g[gy]||0; for(let gx=0;gx<5;gx++){ if(row&(1<<(4-gx))){  
+               const x=x0+gx,y=y0+gy; if(grid[y]&&grid[y][x]!==undefined) grid[y][x]=color; } } } x0+=6;}}
+            ⋮┆----------------------------------------
+          468┆ for(let gy=0;gy<3;gy++){const row=g[gy]||0; for(let gx=0;gx<3;gx++){ if(row&(1<<(2-gx))){  
+               const x=x0+gx,y=y0+gy; if(grid[y]&&grid[y][x]!==undefined) grid[y][x]=color; } } } x0+=4;}}
+            ⋮┆----------------------------------------
+          470┆ const cv=els.panelCanvas; if(!cv) return; const ctx=cv.getContext('2d');
+            ⋮┆----------------------------------------
+          499┆ if(wheel){ drawWheel(wheel);                                                           
+               wheel.addEventListener('pointerdown',e=>pickFromWheel(e,wheel));                       
+               wheel.addEventListener('pointermove',e=>{ if(e.buttons&1) pickFromWheel(e,wheel); }); }
+            ⋮┆----------------------------------------
+          537┆ // Approximation: fast red blink (alternate-color firmware mode could refine this later)
+          538┆                                                                                            
+               go('/api/neopixel/set?r=255&g=0&b=0').then(()=>setMode('BLINK',120)).then(()=>statusMsg('De
+               mo: Police'));                                                                             
+   
+     ❱ SensorWatch.cpp-new-no-delete
+          Manual 'new' used; ensure matching delete and consider RAII.
+                                                                      
+          784┆ let ws = new WebSocket(`ws://${window.location.host}/ws`);
+   
+    ❯❱ SensorWatch.cpp-dangerous-c-style-cast
+          C-style cast used. Prefer static_cast/dynamic_cast/reinterpret_cast.
+                                                                              
+          787┆ if (wsPaused) return;
+            ⋮┆----------------------------------------
+          818┆ if (input) labels[input.id] = input.value;
+   
+     ❱ SensorWatch.cpp-new-no-delete
+          Manual 'new' used; ensure matching delete and consider RAII.
+                                                                      
+          840┆ // Connectivity Management page: Lets user disconnect/reconnect WiFi and set new
+               credentials.                                                                    
+          841┆ const char connectivityPage[] PROGMEM = R"rawliteral(
+          842┆ <!DOCTYPE html>
+          843┆ <html>
+          844┆ <head>
+          845┆   <title>Connectivity Management</title>
+          846┆   <style>
+          847┆     body { font-family: Arial, sans-serif; text-align: center; background: #f4f4f4; }
+   
+    ❯❱ SensorWatch.cpp-hardcoded-credential-literal
+          Possible hardcoded credential in string literal.
+                                                          
+          852┆ input[type="text"], input[type="password"] { padding: 8px; margin: 5px; }
+            ⋮┆----------------------------------------
+          871┆ <input type="password" id="password" placeholder="Password">
+            ⋮┆----------------------------------------
+          871┆ <input type="password" id="password" placeholder="Password">
+            ⋮┆----------------------------------------
+          871┆ <input type="password" id="password" placeholder="Password">
+   
+    ❯❱ SensorWatch.cpp-dangerous-c-style-cast
+          C-style cast used. Prefer static_cast/dynamic_cast/reinterpret_cast.
+                                                                              
+          903┆ // Request /wifi-debug to get runtime SSID and IP (if available)
+          904┆ fetch('/wifi-debug').then(r=>r.json()).then(d=>{
+            ⋮┆----------------------------------------
+          906┆ if (d.ssid && d.ssid.length) cur = d.ssid + ' @ ' + (d.ip || '(no-ip)');
+   
+    ❯❱ SensorWatch.cpp-hardcoded-credential-literal
+          Possible hardcoded credential in string literal.
+                                                          
+          917┆   const sel = document.getElementById("networkList");
+          918┆   if (sel && sel.value) ssid = sel.value;
+          919┆ }
+          920┆ let password = document.getElementById("password").value;
+   
+    ❯❱ SensorWatch.cpp-dangerous-c-style-cast
+          C-style cast used. Prefer static_cast/dynamic_cast/reinterpret_cast.
+                                                                              
+          918┆ if (sel && sel.value) ssid = sel.value;
+   
+     ❱ SensorWatch.cpp-unencrypted-storage-hint
+          Sensitive data storage detected; consider encryption.
+                                                               
+          920┆ let password = document.getElementById("password").value;
+   
+    ❯❱ SensorWatch.cpp-hardcoded-credential-literal
+          Possible hardcoded credential in string literal.
+                                                          
+          920┆   let password = document.getElementById("password").value;
+          921┆   if (!ssid) { alert('Please select or enter an SSID from the list.'); return; }
+          922┆   // POST as application/x-www-form-urlencoded to ensure server parses fields
+          923┆   const data = 'ssid=' + encodeURIComponent(ssid) + '&password=' +
+               encodeURIComponent(password);                                     
+          924┆   fetch('/connectivity', { method: 'POST', headers: { 'Content-Type': 'application/x-www-
+               form-urlencoded' }, body: data })                                                        
+          925┆    .then(response => response.text())
+          926┆    .then(data => { alert(data); window.location.href = '/manage'; })
+          927┆    .catch(err => console.error('Error connecting:', err));
+          928┆  }
+          929┆ // Auto-scan and refresh current status on page load
+             [hid 5 additional lines, adjust with --max-lines-per-finding] 
+   
+     ❱ SensorWatch.cpp-unencrypted-storage-hint
+          Sensitive data storage detected; consider encryption.
+                                                               
+          923┆ const data = 'ssid=' + encodeURIComponent(ssid) + '&password=' +
+               encodeURIComponent(password);                                   
+   
+    ❯❱ SensorWatch.cpp-dangerous-c-style-cast
+          C-style cast used. Prefer static_cast/dynamic_cast/reinterpret_cast.
+                                                                              
+          992┆ // Attempt to read error body as text (or JSON) and throw for the catch handler
+   
+     ❱ SensorWatch.cpp-new-no-delete
+          Manual 'new' used; ensure matching delete and consider RAII.
+                                                                      
+          993┆ return response.text().then(t => { throw new Error('FS info error: ' + (t ||
+               response.status)); });                                                      
+   
+    ❯❱ SensorWatch.cpp-hardcoded-credential-literal
+          Possible hardcoded credential in string literal.
+                                                          
+          1024┆ String wifiSSID = "guest";
+          1025┆ String wifiPassword = "password";
+   
+    ❯❱ SensorWatch.cpp-hardcoded-http-url
+          Hardcoded HTTP URL (non-TLS). Prefer HTTPS.
+                                                     
+          1026┆ const char* remoteServerName = "http://ecoforces.com/update_db.php";
+   
+    ❯❱ SensorWatch.cpp-hardcoded-credential-literal
+          Possible hardcoded credential in string literal.
+                                                          
+          1026┆ const char* remoteServerName = "http://ecoforces.com/update_db.php";
+          1027┆ String remoteApiKey = "tPmAT5Ab3j7F9";
+   
+    ❯❱ SensorWatch.cpp-dangerous-c-style-cast
+          C-style cast used. Prefer static_cast/dynamic_cast/reinterpret_cast.
+                                                                              
+          1032┆ // Server port (configured once so logging can print the correct GUI URL)
+          1033┆ static constexpr uint16_t SERVER_PORT = 9999;
+            ⋮┆----------------------------------------
+          1057┆ const unsigned long imuBroadcastIntervalMsBase = 30; // baseline min interval (ms)
+          1058┆ unsigned long imuBroadcastIntervalMsCurrent = imuBroadcastIntervalMsBase; // adaptive
+               working interval                                                                      
+            ⋮┆----------------------------------------
+          1059┆ const unsigned long imuBroadcastIntervalMsMax = 2000; // maximum backoff (ms)
+          1060┆ unsigned int imuBroadcastStableSends = 0; // consecutive successful sends
+            ⋮┆----------------------------------------
+          1065┆ volatile int uploadProgress = 0;  // 0 to 100 (%)
+          1066┆ volatile bool updateFinished = false;
+            ⋮┆----------------------------------------
+          1074┆ // Avoid flash pins (6..11) on DOIT boards; choose LEDC-capable GPIOs 25/26 for piezo
+            ⋮┆----------------------------------------
+          1082┆ // Demo flags controlled from the IMU UI (via websocket JSON messages)
+          1083┆ static bool gNeoGyroDemoActive = false;
+            ⋮┆----------------------------------------
+          1087┆ // piezo sustain state (we'll call playTone with duration 0 to sustain)
+          1088┆ static bool gPiezoSustaining = false;
+            ⋮┆----------------------------------------
+          1090┆ // heartbeat pattern state (non-blocking)
+          1091┆ static bool     gHeartbeatActive     = false;
+            ⋮┆----------------------------------------
+          1139┆ // Optional: message fan-out helper (text)
+          1140┆ inline void wsBroadcast(const String &msg) {
+            ⋮┆----------------------------------------
+          1160┆ // WebSocket glue (single definition only)
+          1161┆ static void onWsEvent(AsyncWebSocket *server, AsyncWebSocketClient *client,
+            ⋮┆----------------------------------------
+          1169┆ AwsFrameInfo *info = (AwsFrameInfo*)arg;
+            ⋮┆----------------------------------------
+          1172┆ for (size_t i = 0; i < len; i++) s += (char)data[i];
+            ⋮┆----------------------------------------
+          1172┆ for (size_t i = 0; i < len; i++) s += (char)data[i];
+            ⋮┆----------------------------------------
+          1176┆ if (!err && !tmp["type"].isNull() && String((const
+               char*)tmp["type"]).equalsIgnoreCase("ping")) {     
+            ⋮┆----------------------------------------
+          1188┆ if (!cmdErr && !cmd["type"].isNull() && String((const
+               char*)cmd["type"]).equalsIgnoreCase("demo")) {        
+            ⋮┆----------------------------------------
+          1189┆ String demo = String((const char*)cmd["demo"]);
+            ⋮┆----------------------------------------
+          1213┆ // Optional broadcast/service shims (use if you referenced them)
+          1214┆ static inline void wsBroadcast(AsyncWebSocket& ws, const String &msg) { ws.textAll(msg); }
+   
+    ❯❱ SensorWatch.cpp-hardcoded-credential-literal
+          Possible hardcoded credential in string literal.
+                                                          
+          1293┆   File file = LittleFS.open("/wifi_config.json", "r");
+          1294┆   if (file) {
+          1295┆   // allow larger doc to hold multiple networks
+          1296┆ StaticJsonDocument<768> doc;
+          1297┆     DeserializationError error = deserializeJson(doc, file);
+          1298┆     if (!error) {
+          1299┆       // backward-compatible single object with ssid/password
+          1300┆       if (!doc["ssid"].isNull() && !doc["password"].isNull()) {
+            ⋮┆----------------------------------------
+          1300┆ if (!doc["ssid"].isNull() && !doc["password"].isNull()) {
+            ⋮┆----------------------------------------
+          1301┆ wifiSSID = doc["ssid"].as<String>();
+          1302┆ wifiPassword = doc["password"].as<String>();
+            ⋮┆----------------------------------------
+          1303┆   Serial.println("Loaded WiFi config (single): " + wifiSSID + ", " + wifiPassword);
+          1304┆ }
+          1305┆
+          1306┆ // new form: networks: [ { ssid, password }, ... ]
+          1307┆ if (doc["networks"].is<JsonArray>()) {
+   
+     ❱ SensorWatch.cpp-new-no-delete
+          Manual 'new' used; ensure matching delete and consider RAII.
+                                                                      
+          1306┆ // new form: networks: [ { ssid, password }, ... ]
+          1307┆ if (doc["networks"].is<JsonArray>()) {
+          1308┆   wifiNetworks.clear();
+   
+    ❯❱ SensorWatch.cpp-hardcoded-credential-literal
+          Possible hardcoded credential in string literal.
+                                                          
+          1310┆ if (v.is<JsonObject>() && !v["ssid"].isNull() && !v["password"].isNull()) {
+   
+    ❯❱ SensorWatch.cpp-dangerous-c-style-cast
+          C-style cast used. Prefer static_cast/dynamic_cast/reinterpret_cast.
+                                                                              
+          1312┆ wn.ssid = String((const char*)v["ssid"]);
+   
+    ❯❱ SensorWatch.cpp-hardcoded-credential-literal
+          Possible hardcoded credential in string literal.
+                                                          
+          1312┆ wn.ssid = String((const char*)v["ssid"]);
+          1313┆ wn.password = String((const char*)v["password"]);
+   
+     ❱ SensorWatch.cpp-unencrypted-storage-hint
+          Sensitive data storage detected; consider encryption.
+                                                               
+          1313┆ wn.password = String((const char*)v["password"]);
+   
+    ❯❱ SensorWatch.cpp-dangerous-c-style-cast
+          C-style cast used. Prefer static_cast/dynamic_cast/reinterpret_cast.
+                                                                              
+          1313┆ wn.password = String((const char*)v["password"]);
+            ⋮┆----------------------------------------
+          1328┆ // Station mode + dynamic hostname (wwl-<last3 MAC bytes>)
+          1329┆ WiFi.mode(WIFI_STA);
+            ⋮┆----------------------------------------
+          1331┆ // Doing this earlier (in setup) sometimes fails with ESP_ERR_INVALID_STATE on some cores.
+            ⋮┆----------------------------------------
+          1351┆ Serial.println("[DIAG] WIFI_STATIC_TEST: WiFi.config() returned false");
+            ⋮┆----------------------------------------
+          1362┆ if (_e == ESP_OK) Serial.println("[DIAG] esp_wifi_set_max_tx_power(20) OK"); else
+               Serial.printf("[DIAG] esp_wifi_set_max_tx_power -> %d\n", (int)_e);               
+            ⋮┆----------------------------------------
+          1362┆ if (_e == ESP_OK) Serial.println("[DIAG] esp_wifi_set_max_tx_power(20) OK"); else
+               Serial.printf("[DIAG] esp_wifi_set_max_tx_power -> %d\n", (int)_e);               
+            ⋮┆----------------------------------------
+          1362┆ if (_e == ESP_OK) Serial.println("[DIAG] esp_wifi_set_max_tx_power(20) OK"); else
+               Serial.printf("[DIAG] esp_wifi_set_max_tx_power -> %d\n", (int)_e);               
+   
+    ❯❱ SensorWatch.cpp-hardcoded-credential-literal
+          Possible hardcoded credential in string literal.
+                                                          
+          1362┆   if (_e == ESP_OK) Serial.println("[DIAG] esp_wifi_set_max_tx_power(20) OK"); else
+               Serial.printf("[DIAG] esp_wifi_set_max_tx_power -> %d\n", (int)_e);                 
+          1363┆ #endif
+          1364┆
+          1365┆   // Try firmware-provided defaults first (so embedded SSID/password in main.cpp wins when
+               present).                                                                                  
+          1366┆   bool connected = false;
+          1367┆   if (!wifiSSID.isEmpty()) {
+          1368┆     // Print SSID and masked password for diagnostics
+          1369┆     String masked = wifiPassword;
+          1370┆     for (size_t i = 0; i < masked.length(); ++i) masked.setCharAt(i, '*');
+          1371┆     Serial.println("Attempting WiFi (firmware defaults first): " + wifiSSID + " pwd=" +
+               masked);                                                                                
+            ⋮┆----------------------------------------
+          1371┆ Serial.println("Attempting WiFi (firmware defaults first): " + wifiSSID + " pwd=" +
+               masked);                                                                            
+            ⋮┆----------------------------------------
+          1379┆ Serial.printf("[DIAG] firmware-default connect attempt %d\n", attempt+1);
+          1380┆ WiFi.disconnect(true, true);
+          1381┆ delay(300);
+          1382┆
+          1383┆ // Use simple SSID/password connect - no channel or BSSID pinning
+          1384┆ // This allows the device to work across different routers and AP topologies
+          1385┆ WiFi.begin(wifiSSID.c_str(), wifiPassword.c_str());
+          1386┆ Serial.print("Connecting");
+   
+   ❯❯❱ SensorWatch.cpp-hardcoded-wifi-credentials
+          Hardcoded WiFi credentials (WiFi.begin). Use secure provisioning or configuration instead.
+                                                                                                    
+          1385┆ WiFi.begin(wifiSSID.c_str(), wifiPassword.c_str());
+   
+    ❯❱ SensorWatch.cpp-dangerous-c-style-cast
+          C-style cast used. Prefer static_cast/dynamic_cast/reinterpret_cast.
+                                                                              
+          1433┆ if (bb) memcpy(sr.bssid, bb, 6); else memset(sr.bssid, 0, 6);
+            ⋮┆----------------------------------------
+          1458┆ if ((int)lastScan.size() >= MAX_LAST_SCAN) break;
+            ⋮┆----------------------------------------
+          1483┆ // per-network timeout (seconds)
+          1484┆ const int perNetworkSeconds = 20; // slightly longer to allow weak links
+            ⋮┆----------------------------------------
+          1486┆ std::vector<std::pair<size_t,int>> seenMatches; // (index into wifiNetworks, rssi)
+          1487┆ for (size_t idx = 0; idx < wifiNetworks.size(); ++idx) {
+            ⋮┆----------------------------------------
+          1496┆ // sort seen matches by RSSI descending (strongest first)
+          1497┆ if (!seenMatches.empty()) {
+            ⋮┆----------------------------------------
+          1503┆ if (connected) break;
+   
+    ❯❱ SensorWatch.cpp-hardcoded-credential-literal
+          Possible hardcoded credential in string literal.
+                                                          
+          1512┆ Serial.printf("[DIAG] trying %s attempt %d\n", wn.ssid.c_str(), a+1);
+          1513┆ // Use simple SSID/password connect - no BSSID pinning
+          1514┆ WiFi.begin(wn.ssid.c_str(), wn.password.c_str());
+          1515┆ Serial.print("Connecting");
+   
+   ❯❯❱ SensorWatch.cpp-hardcoded-wifi-credentials
+          Hardcoded WiFi credentials (WiFi.begin). Use secure provisioning or configuration instead.
+                                                                                                    
+          1514┆ WiFi.begin(wn.ssid.c_str(), wn.password.c_str());
+   
+    ❯❱ SensorWatch.cpp-hardcoded-credential-literal
+          Possible hardcoded credential in string literal.
+                                                          
+          1520┆     Serial.printf("[DIAG] %s attempt %d failed - WiFi.status=%d\n", wn.ssid.c_str(), a+1,
+               WiFi.status());                                                                           
+          1521┆     delay(300);
+          1522┆   }
+          1523┆ }
+          1524┆ if (WiFi.status() == WL_CONNECTED) {
+          1525┆   connected = true; wifiSSID = wn.ssid; wifiPassword = wn.password;
+          1526┆   Serial.println("\nConnected to WiFi: " + wifiSSID);
+   
+    ❯❱ SensorWatch.cpp-dangerous-c-style-cast
+          C-style cast used. Prefer static_cast/dynamic_cast/reinterpret_cast.
+                                                                              
+          1532┆ // then attempt any remaining config entries (those not seen)
+          1533┆ for (size_t idx = 0; idx < wifiNetworks.size() && !connected; ++idx) {
+            ⋮┆----------------------------------------
+          1534┆ if (attempted[idx]) continue;
+            ⋮┆----------------------------------------
+          1541┆ Serial.printf("[DIAG] trying %s (not-seen) attempt %d\n", wn.ssid.c_str(), a+1);
+   
+    ❯❱ SensorWatch.cpp-hardcoded-credential-literal
+          Possible hardcoded credential in string literal.
+                                                          
+          1541┆ Serial.printf("[DIAG] trying %s (not-seen) attempt %d\n", wn.ssid.c_str(), a+1);
+          1542┆ WiFi.begin(wn.ssid.c_str(), wn.password.c_str());
+          1543┆ Serial.print("Connecting");
+   
+   ❯❯❱ SensorWatch.cpp-hardcoded-wifi-credentials
+          Hardcoded WiFi credentials (WiFi.begin). Use secure provisioning or configuration instead.
+                                                                                                    
+          1542┆ WiFi.begin(wn.ssid.c_str(), wn.password.c_str());
+   
+    ❯❱ SensorWatch.cpp-hardcoded-credential-literal
+          Possible hardcoded credential in string literal.
+                                                          
+          1546┆   else { Serial.println(); Serial.printf("[DIAG] %s attempt %d failed\n", wn.ssid.c_str(),
+               a+1); delay(300); }                                                                        
+          1547┆ }
+          1548┆ if (WiFi.status() == WL_CONNECTED) {
+          1549┆   connected = true; wifiSSID = wn.ssid; wifiPassword = wn.password;
+          1550┆   Serial.println("\nConnected to WiFi: " + wifiSSID);
+   
+    ❯❱ SensorWatch.cpp-dangerous-c-style-cast
+          C-style cast used. Prefer static_cast/dynamic_cast/reinterpret_cast.
+                                                                              
+          1558┆ // (fallback) if still not connected, we'll attempt networks from wifi_config.json below.
+            ⋮┆----------------------------------------
+          1564┆ Serial.printf("GUI IP: http://%s:%u/\n", WiFi.localIP().toString().c_str(),
+               (unsigned)SERVER_PORT);                                                     
+   
+     ❱ SensorWatch.cpp-hardcoded-ip
+          Hardcoded IP address found.
+                                     
+          1567┆ if (WiFi.localIP().toString() == "0.0.0.0") {
+            ⋮┆----------------------------------------
+          1570┆ while (millis() - dhcpStart < 15000 && WiFi.localIP().toString() == "0.0.0.0") {
+            ⋮┆----------------------------------------
+          1575┆ if (WiFi.localIP().toString() == "0.0.0.0") {
+   
+    ❯❱ SensorWatch.cpp-hardcoded-credential-literal
+          Possible hardcoded credential in string literal.
+                                                          
+          1576┆ Serial.println("DHCP did not assign IP. Trying reconnect sequence...");
+          1577┆ // Try a quick reconnect sequence: disconnect and begin again, then wait a bit
+          1578┆ WiFi.disconnect(true, true);
+          1579┆ delay(500);
+          1580┆ WiFi.begin(wifiSSID.c_str(), wifiPassword.c_str());
+          1581┆ Serial.print("Reconnecting");
+   
+   ❯❯❱ SensorWatch.cpp-hardcoded-wifi-credentials
+          Hardcoded WiFi credentials (WiFi.begin). Use secure provisioning or configuration instead.
+                                                                                                    
+          1580┆ WiFi.begin(wifiSSID.c_str(), wifiPassword.c_str());
+   
+     ❱ SensorWatch.cpp-hardcoded-ip
+          Hardcoded IP address found.
+                                     
+          1585┆ if (WiFi.status() == WL_CONNECTED && WiFi.localIP().toString() != "0.0.0.0") {
+   
+    ❯❱ SensorWatch.cpp-dangerous-c-style-cast
+          C-style cast used. Prefer static_cast/dynamic_cast/reinterpret_cast.
+                                                                              
+          1599┆ // mDNS (reachable as http://<hostname>.local:100/)
+          1600┆ if (MDNS.begin(hostname)) {
+            ⋮┆----------------------------------------
+          1670┆ #if defined(WIFI_REASON)
+          1671┆       reason = WiFi.reason();
+            ⋮┆----------------------------------------
+          1695┆ Serial.println(" (reason=? WiFi.reason() unavailable in this SDK)");
+            ⋮┆----------------------------------------
+          1698┆ // Try to print last AP info (BSSID/channel/RSSI) via esp_wifi APIs when available.
+            ⋮┆----------------------------------------
+          1699┆ #if defined(ESP_WIFI_STA_GET_AP_INFO)
+          1700┆ wifi_ap_record_t apinfo;
+            ⋮┆----------------------------------------
+          1741┆ Serial.printf("WiFi event: %d\n", (int)event);
+            ⋮┆----------------------------------------
+          1780┆ // Get a label (from your labels JSON) or use a default.
+            ⋮┆----------------------------------------
+          1781┆ // (Assuming loadSensorLabels() returns a JSON object mapping addresses to labels.)
+            ⋮┆----------------------------------------
+          1831┆ Serial.printf("WS summary -> sensors=%d imu=%s len=%u\n", sensorCount, hasImu?"yes":"no",
+               (unsigned)jsonData.length());                                                             
+            ⋮┆----------------------------------------
+          1840┆ // Stop sensor capture endpoint (pause data collection)
+          1841┆ void handleStopCapture(AsyncWebServerRequest* request) {
+            ⋮┆----------------------------------------
+          1846┆ // Start sensor capture endpoint (resume data collection)
+          1847┆ void handleStartCapture(AsyncWebServerRequest* request) {
+   
+    ❯❱ SensorWatch.cpp-hardcoded-credential-literal
+          Possible hardcoded credential in string literal.
+                                                          
+          1871┆ .form-container input[type="password"] {
+            ⋮┆----------------------------------------
+          1887┆ <div class="form-container">
+          1888┆   <form name='loginForm'>
+          1889┆     <input name='userid' placeholder='User ID' type='text'>
+          1890┆     <input name='pwd' placeholder='Password' type='password'>
+          1891┆     <input type='button' value='Login' onclick='check(this.form)'>
+          1892┆   </form>
+          1893┆ </div>
+          1894┆ <script>
+          1895┆   function check(form) {
+          1896┆     if (form.userid.value == 'admin' && form.pwd.value == 'admin') {
+             [hid 9 additional lines, adjust with --max-lines-per-finding] 
+   
+    ❯❱ SensorWatch.cpp-ota-update-endpoint
+          Possible OTA/update endpoint; verify authentication and access control.
+                                                                                 
+          1930┆ <form method="POST" action="/update" enctype="multipart/form-data">
+   
+     ❱ SensorWatch.cpp-new-no-delete
+          Manual 'new' used; ensure matching delete and consider RAII.
+                                                                      
+          1944┆ var websocket = new WebSocket('ws://' + gateway + ':81/');
+   
+    ❯❱ SensorWatch.cpp-dangerous-c-style-cast
+          C-style cast used. Prefer static_cast/dynamic_cast/reinterpret_cast.
+                                                                              
+          1971┆    // OTA update (AsyncWebServer style)
+          1972┆ server.on("/update", HTTP_POST,
+   
+    ❯❱ SensorWatch.cpp-ota-update-endpoint
+          Possible OTA/update endpoint; verify authentication and access control.
+                                                                                 
+          1972┆ server.on("/update", HTTP_POST,
+   
+    ❯❱ SensorWatch.cpp-dangerous-c-style-cast
+          C-style cast used. Prefer static_cast/dynamic_cast/reinterpret_cast.
+                                                                              
+          1975┆     const char* page = R"rawliteral(
+          1976┆ <!DOCTYPE html><html><head><meta charset="UTF-8"><title>Update in Progress</title>
+          1977┆ <style>body{font-family:Arial,sans-serif;text-align:center;background:#f4f4f4}</style>
+          1978┆ </head><body><h1>Upload complete. Processing firmware update...</h1><p>Please
+               wait...</p></body></html>                                                     
+          1979┆ )rawliteral";
+            ⋮┆----------------------------------------
+          2011┆ Serial.printf("Update Success: %u bytes\n", (unsigned)bytesWritten);
+            ⋮┆----------------------------------------
+          2078┆ // Support both ?name= and ?file= query parameters (UI historically used file=)
+          2079┆ if (!request->hasParam("name") && !request->hasParam("file")) {
+            ⋮┆----------------------------------------
+          2118┆ content += (char)file.read();
+            ⋮┆----------------------------------------
+          2151┆ if (fsUploadFile) fsUploadFile.close();
+            ⋮┆----------------------------------------
+          2176┆ // If test file not found, attempt to (re)mount LittleFS.
+            ⋮┆----------------------------------------
+          2200┆ Serial.printf("fsInfoHandler: total=%u used=%u free=%u\n", (unsigned)total,
+               (unsigned)used, (unsigned)free);                                            
+            ⋮┆----------------------------------------
+          2200┆ Serial.printf("fsInfoHandler: total=%u used=%u free=%u\n", (unsigned)total,
+               (unsigned)used, (unsigned)free);                                            
+            ⋮┆----------------------------------------
+          2200┆ Serial.printf("fsInfoHandler: total=%u used=%u free=%u\n", (unsigned)total,
+               (unsigned)used, (unsigned)free);                                            
+   
+    ❯❱ SensorWatch.cpp-hardcoded-credential-literal
+          Possible hardcoded credential in string literal.
+                                                          
+          2230┆ String httpRequestData = "api_key=" + String(remoteApiKey) + "&data=" + jsonData;
+   
+     ❱ SensorWatch.cpp-unencrypted-storage-hint
+          Sensitive data storage detected; consider encryption.
+                                                               
+          2230┆ String httpRequestData = "api_key=" + String(remoteApiKey) + "&data=" + jsonData;
+   
+    ❯❱ SensorWatch.cpp-hardcoded-credential-literal
+          Possible hardcoded credential in string literal.
+                                                          
+          2256┆ String httpRequestData = "api_key=" + String(remoteApiKey) + "&data=" + jsonData;
+   
+     ❱ SensorWatch.cpp-unencrypted-storage-hint
+          Sensitive data storage detected; consider encryption.
+                                                               
+          2256┆ String httpRequestData = "api_key=" + String(remoteApiKey) + "&data=" + jsonData;
+   
+    ❯❱ SensorWatch.cpp-dangerous-c-style-cast
+          C-style cast used. Prefer static_cast/dynamic_cast/reinterpret_cast.
+                                                                              
+          2295┆ size_t total = (size_t)LittleFS.totalBytes();
+            ⋮┆----------------------------------------
+          2296┆ size_t used = (size_t)LittleFS.usedBytes();
+            ⋮┆----------------------------------------
+          2328┆ for (uint8_t j = 0; j < 8; j++) sprintf(addressString + j * 2, "%02X", deviceAddress[j]);
+   
+     ❱ SensorWatch.cpp-new-no-delete
+          Manual 'new' used; ensure matching delete and consider RAII.
+                                                                      
+          2383┆ // Endpoint to accept new WiFi credentials and attempt reconnection.
+          2384┆ server.on("/connectivity", HTTP_POST, [](AsyncWebServerRequest* request) {
+          2385┆   String ssidVal, passVal;
+   
+    ❯❱ SensorWatch.cpp-hardcoded-credential-literal
+          Possible hardcoded credential in string literal.
+                                                          
+          2390┆ Serial.printf("[DIAG] hasParam password (body): %d, hasParam password (url): %d\n",
+               request->hasParam("password", true), request->hasParam("password", false));         
+            ⋮┆----------------------------------------
+          2390┆ Serial.printf("[DIAG] hasParam password (body): %d, hasParam password (url): %d\n",
+               request->hasParam("password", true), request->hasParam("password", false));         
+            ⋮┆----------------------------------------
+          2390┆ Serial.printf("[DIAG] hasParam password (body): %d, hasParam password (url): %d\n",
+               request->hasParam("password", true), request->hasParam("password", false));         
+   
+    ❯❱ SensorWatch.cpp-dangerous-c-style-cast
+          C-style cast used. Prefer static_cast/dynamic_cast/reinterpret_cast.
+                                                                              
+          2394┆ Serial.printf("[DIAG] plain body length=%u\n", (unsigned)raw.length());
+            ⋮┆----------------------------------------
+          2398┆ // Prefer raw JSON body if present (Content-Type: application/json)
+          2399┆ if (request->hasParam("plain", true)) {
+   
+    ❯❱ SensorWatch.cpp-hardcoded-credential-literal
+          Possible hardcoded credential in string literal.
+                                                          
+          2407┆ if (!doc["password"].isNull()) passVal = doc["password"].as<String>();
+            ⋮┆----------------------------------------
+          2407┆ if (!doc["password"].isNull()) passVal = doc["password"].as<String>();
+   
+    ❯❱ SensorWatch.cpp-dangerous-c-style-cast
+          C-style cast used. Prefer static_cast/dynamic_cast/reinterpret_cast.
+                                                                              
+          2409┆ // Accept form-encoded submission (either in URL args or body form fields)
+          2410┆ if (request->hasParam("ssid", true)) ssidVal = request->getParam("ssid", true)->value();
+   
+    ❯❱ SensorWatch.cpp-hardcoded-credential-literal
+          Possible hardcoded credential in string literal.
+                                                          
+          2412┆ if (request->hasParam("password", true)) passVal = request->getParam("password",
+               true)->value();                                                                  
+            ⋮┆----------------------------------------
+          2412┆ if (request->hasParam("password", true)) passVal = request->getParam("password",
+               true)->value();                                                                  
+            ⋮┆----------------------------------------
+          2413┆ else if (request->hasParam("password", false)) passVal = request->getParam("password",
+               false)->value();                                                                       
+            ⋮┆----------------------------------------
+          2413┆ else if (request->hasParam("password", false)) passVal = request->getParam("password",
+               false)->value();                                                                       
+            ⋮┆----------------------------------------
+          2420┆ request->send(400, "text/plain", "Missing ssid or password.");
+   
+     ❱ SensorWatch.cpp-new-no-delete
+          Manual 'new' used; ensure matching delete and consider RAII.
+                                                                      
+          2425┆    // Save new credentials to persistent storage.
+          2426┆ StaticJsonDocument<256> wifiDoc;
+   
+    ❯❱ SensorWatch.cpp-hardcoded-credential-literal
+          Possible hardcoded credential in string literal.
+                                                          
+          2428┆ wifiDoc["password"] = wifiPassword;
+   
+     ❱ SensorWatch.cpp-new-no-delete
+          Manual 'new' used; ensure matching delete and consider RAII.
+                                                                      
+          2434┆ // Initiate connection using new credentials but do not block inside the
+          2435┆ // async request handler. To avoid toggling between AP and STA modes we
+          2436┆ // start the STA role while keeping the AP active â€” the GOT_IP event
+          2437┆ // handler will clear the AP lock and stop the softAP once we actually
+          2438┆ // obtain a station IP address.
+          2439┆ WiFi.mode(WIFI_AP_STA);
+   
+    ❯❱ SensorWatch.cpp-hardcoded-credential-literal
+          Possible hardcoded credential in string literal.
+                                                          
+          2452┆       Serial.printf("[DIAG] /connectivity: seen SSID %s in scan (rssi=%d ch=%d bssid=%s) -
+               attempting direct connect\n", wifiSSID.c_str(), WiFi.RSSI(i), chosenChannel, bstr);        
+          2453┆       break;
+          2454┆     }
+          2455┆   }
+          2456┆ }
+          2457┆ WiFi.disconnect();
+          2458┆ if (chosenBSSID) {
+          2459┆   WiFi.begin(wifiSSID.c_str(), wifiPassword.c_str(), chosenChannel, chosenBSSID);
+          2460┆ } else {
+          2461┆   WiFi.begin(wifiSSID.c_str(), wifiPassword.c_str());
+             [hid 2 additional lines, adjust with --max-lines-per-finding] 
+   
+   ❯❯❱ SensorWatch.cpp-hardcoded-wifi-credentials
+          Hardcoded WiFi credentials (WiFi.begin). Use secure provisioning or configuration instead.
+                                                                                                    
+          2461┆ WiFi.begin(wifiSSID.c_str(), wifiPassword.c_str());
+   
+    ❯❱ SensorWatch.cpp-hardcoded-credential-literal
+          Possible hardcoded credential in string literal.
+                                                          
+          2468┆     request->send_P(200, "text/html", connectivityPage);
+          2469┆ });
+          2470┆
+          2471┆ // Return stored WiFi config and AP lock status (password masked) for debugging.
+          2472┆ server.on("/wifi-debug", HTTP_GET, [](AsyncWebServerRequest* request){
+   
+    ❯❱ SensorWatch.cpp-dangerous-c-style-cast
+          C-style cast used. Prefer static_cast/dynamic_cast/reinterpret_cast.
+                                                                              
+          2471┆ // Return stored WiFi config and AP lock status (password masked) for debugging.
+   
+    ❯❱ SensorWatch.cpp-hardcoded-credential-literal
+          Possible hardcoded credential in string literal.
+                                                          
+          2474┆ d["ssid"] = wifiSSID;
+          2475┆ String masked = wifiPassword;
+          2476┆ for (size_t i = 0; i < masked.length(); ++i) masked.setCharAt(i, '*');
+          2477┆ d["password_masked"] = masked;
+            ⋮┆----------------------------------------
+          2482┆ o["password_masked"] = String("*");
+   
+    ❯❱ SensorWatch.cpp-dangerous-c-style-cast
+          C-style cast used. Prefer static_cast/dynamic_cast/reinterpret_cast.
+                                                                              
+          2518┆ Serial.printf("GUI IP (AP): http://%s:%u/\n", apip.toString().c_str(),
+               (unsigned)SERVER_PORT);                                                
+            ⋮┆----------------------------------------
+          2535┆ if (updateSuccessful)
+          2536┆   msg += "\"message\":\"Update complete. Rebooting...\",";
+            ⋮┆----------------------------------------
+          2562┆ // Print reset reason for easier triage (brownout/watchdog/other)
+          2563┆ esp_reset_reason_t rr = esp_reset_reason();
+            ⋮┆----------------------------------------
+          2564┆ Serial.printf("Reset reason: %d (%s)\n", (int)rr, resetReasonToString(rr));
+            ⋮┆----------------------------------------
+          2571┆ // Some cores provide an overload that delivers extra info (bssid, reason) to the
+               callback.                                                                         
+            ⋮┆----------------------------------------
+          2572┆ // For ESP-IDF-based cores (ESP32/ESP32-S3) register an esp_event handler
+            ⋮┆----------------------------------------
+          2573┆ #if defined(BOARD_ESP32_S3) || defined(BOARD_ESP32)
+          2574┆ esp_event_handler_instance_t instance_any_id;
+            ⋮┆----------------------------------------
+          2578┆ // Only access fields that are widely available (reason and bssid) to
+            ⋮┆----------------------------------------
+          2581┆ wifi_event_sta_disconnected_t* d = (wifi_event_sta_disconnected_t*)event_data;
+            ⋮┆----------------------------------------
+          2593┆ Serial.printf("[DIAG] esp_event handler register failed: %d (%s)\n", (int)_er, en ? en :
+               "?");                                                                                    
+            ⋮┆----------------------------------------
+          2599┆ wifi_event_sta_disconnected_t* d = (wifi_event_sta_disconnected_t*)event_data;
+            ⋮┆----------------------------------------
+          2600┆ Serial.printf("[ESP_EVT] (fallback) STA_DISCONNECTED: reason=%d
+               bssid=%02X:%02X:%02X:%02X:%02X:%02X\n",                         
+            ⋮┆----------------------------------------
+          2610┆ Serial.printf("[DIAG] fallback esp_event_handler_register failed: %d (%s)\n", (int)_er2,
+               en2 ? en2 : "?");                                                                        
+            ⋮┆----------------------------------------
+          2616┆ Serial.printf("[DIAG] server will listen on port=%u\n", (unsigned)SERVER_PORT);
+            ⋮┆----------------------------------------
+          2617┆ Serial.println("[DIAG] Calling connectToWiFi() from setup");
+            ⋮┆----------------------------------------
+          2653┆ // sample object (no further IMU calls) so it's safe to run from the sampling
+            ⋮┆----------------------------------------
+          2660┆ // Serialize sample passed into the callback (do not call other imu methods here)
+          2661┆ imu.toJson(s, data);
+            ⋮┆----------------------------------------
+          2709┆ // Small embedded fallback favicon (1x1 ICO) in case LittleFS is not mounted.
+            ⋮┆----------------------------------------
+          2722┆ AsyncWebServerResponse* res = request->beginResponse_P(200, "image/x-icon", (const
+               uint8_t*)favicon_ico, favicon_ico_len);                                            
+            ⋮┆----------------------------------------
+          2731┆ // (headers optional in Async; skip or re-add via request->send if needed)
+          2732┆ request->send_P(200, "text/html", neopixelPage);
+            ⋮┆----------------------------------------
+          2770┆ String body = String("{\"ok\":true,\"mode\":") + (int)neo.mode()
+            ⋮┆----------------------------------------
+          2806┆ neo.setColor((uint8_t)r,(uint8_t)g,(uint8_t)b);
+            ⋮┆----------------------------------------
+          2806┆ neo.setColor((uint8_t)r,(uint8_t)g,(uint8_t)b);
+            ⋮┆----------------------------------------
+          2806┆ neo.setColor((uint8_t)r,(uint8_t)g,(uint8_t)b);
+            ⋮┆----------------------------------------
+          2810┆ NEO_LOGF("[NEO] set => r=%d g=%d b=%d  now color=0x%06X\n", r,g,b,(unsigned)c);
+            ⋮┆----------------------------------------
+          2821┆ neo.setBrightness((uint8_t)v);
+            ⋮┆----------------------------------------
+          2842┆ neo.setPeriod((uint32_t)period);
+            ⋮┆----------------------------------------
+          2846┆ name.c_str(), period, (int)neo.mode());  // <--- ADD
+            ⋮┆----------------------------------------
+          2888┆ // Endpoint for updating sensor labels (used by Labels page)
+          2889┆ server.on("/update-labels", HTTP_POST, [](AsyncWebServerRequest* request) {
+            ⋮┆----------------------------------------
+          2909┆ // Endpoint to get sensor data (used by Main and Labels pages)
+          2910┆ server.on("/get-sensors", HTTP_GET, [](AsyncWebServerRequest* request) {
+            ⋮┆----------------------------------------
+          2927┆ if (i < sensorCount - 1) jsonData += ",";
+            ⋮┆----------------------------------------
+          2972┆ if (fsUploadFile) fsUploadFile.write(data, len);
+            ⋮┆----------------------------------------
+          2973┆ if (final && fsUploadFile) fsUploadFile.close();
+            ⋮┆----------------------------------------
+          2986┆ // IMU page registered by IMUFX_UI library (serves /imu and assets)
+          2987┆ IMUFX_UI::registerPages(server);
+            ⋮┆----------------------------------------
+          3022┆ // IMU background sampling update (keeps main loop minimal)
+          3023┆ imu.update();
+            ⋮┆----------------------------------------
+          3031┆ millis(), (unsigned)freeHeap, sensorCount, (unsigned)neo.brightness());
+            ⋮┆----------------------------------------
+          3031┆ millis(), (unsigned)freeHeap, sensorCount, (unsigned)neo.brightness());
+            ⋮┆----------------------------------------
+          3035┆ // We'll sample the latest IMU sample (if available) and perform non-blocking actions
+            ⋮┆----------------------------------------
+          3044┆ if (hue < 0) hue += 360.0f;
+            ⋮┆----------------------------------------
+          3046┆ // Only update color at modest rate (e.g., 60 Hz) to avoid flooding
+            ⋮┆----------------------------------------
+          3048┆ // convert hue to 0xRRGGBB, simple hsv->rgb conversion (0..1)
+          3049┆ float h = hue * 6.0f; int sector = (int)h; float f = h - sector; float v = 1.0f; float p =
+               0.0f; float q = 1.0f - f; float t = f;                                                     
+            ⋮┆----------------------------------------
+          3049┆ float h = hue * 6.0f; int sector = (int)h; float f = h - sector; float v = 1.0f; float p =
+               0.0f; float q = 1.0f - f; float t = f;                                                     
+            ⋮┆----------------------------------------
+          3070┆ // angle between gravity vector and device Z axis: use acos(az / |a|)
+          3071┆ float mag = sqrtf(ax*ax + ay*ay + az*az);
+            ⋮┆----------------------------------------
+          3074┆ float cosTheta = az / mag; if (cosTheta > 1.0f) cosTheta = 1.0f; if (cosTheta < -1.0f)
+               cosTheta = -1.0f;                                                                      
+            ⋮┆----------------------------------------
+          3074┆ float cosTheta = az / mag; if (cosTheta > 1.0f) cosTheta = 1.0f; if (cosTheta < -1.0f)
+               cosTheta = -1.0f;                                                                      
+            ⋮┆----------------------------------------
+          3076┆ // when Z is vertical (angle near 0) we trigger
+   
+     ❱ SensorWatch.cpp-new-no-delete
+          Manual 'new' used; ensure matching delete and consider RAII.
+                                                                      
+          3089┆ // If IMU produced a new sample, send a compact JSON to websocket clients immediately
+          3090┆ ImuSample s;
+   
+    ❯❱ SensorWatch.cpp-dangerous-c-style-cast
+          C-style cast used. Prefer static_cast/dynamic_cast/reinterpret_cast.
+                                                                              
+          3137┆ // log drops much less frequently (every 256 drops) to avoid serial spam
+   
+    ❯❱ SensorWatch.cpp-hardcoded-credential-literal
+          Possible hardcoded credential in string literal.
+                                                          
+          3164┆     Serial.println("[DIAG] periodic STA reconnect attempt from AP mode");
+          3165┆     // Start station connect (AP remains active because we're in AP+STA mode)
+          3166┆     WiFi.disconnect();
+          3167┆     WiFi.begin(wifiSSID.c_str(), wifiPassword.c_str());
+          3168┆     // Do not block here; the WiFi event handler will detect GOT_IP and stop AP
+          3169┆   }
+          3170┆ }
+          3171┆
+          3172┆  // Every dbUpdateInterval, if capture is enabled, store and possibly upload sensor data.
+          3173┆  if (captureEnabled && millis() - lastDBUpdateTime > dbUpdateInterval) {
+             [hid 14 additional lines, adjust with --max-lines-per-finding] 
+   
+    ❯❱ SensorWatch.cpp-dangerous-c-style-cast
+          C-style cast used. Prefer static_cast/dynamic_cast/reinterpret_cast.
+                                                                              
+          3165┆ // Start station connect (AP remains active because we're in AP+STA mode)
+          3166┆ WiFi.disconnect();
+   
+   ❯❯❱ SensorWatch.cpp-hardcoded-wifi-credentials
+          Hardcoded WiFi credentials (WiFi.begin). Use secure provisioning or configuration instead.
+                                                                                                    
+          3167┆ WiFi.begin(wifiSSID.c_str(), wifiPassword.c_str());
+
