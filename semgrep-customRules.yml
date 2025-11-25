@@ -1,0 +1,193 @@
+rules:
+  - id: cpp-unsafe-strcpy
+    message: "Possible buffer overflow: avoid strcpy(), use strncpy or std::string instead."
+    severity: ERROR
+    languages: [c, cpp]
+    pattern: strcpy($DST, $SRC)
+
+  - id: cpp-unsafe-strcat
+    message: "Possible buffer overflow: avoid strcat(), use strncat or std::string instead."
+    severity: ERROR
+    languages: [c, cpp]
+    pattern: strcat($DST, $SRC)
+
+  - id: cpp-unsafe-sprintf
+    message: "sprintf() or vsprintf() without bounds checking can cause buffer overflow; use snprintf."
+    severity: ERROR
+    languages: [c, cpp]
+    patterns:
+      - pattern: sprintf($BUF, $FMT, ...)
+      - pattern: vsprintf($BUF, $FMT, ...)
+
+  - id: cpp-gets-unsafe
+    message: "gets() is inherently unsafe and should never be used."
+    severity: ERROR
+    languages: [c, cpp]
+    pattern: gets($BUF)
+
+  - id: cpp-unsafe-scanf
+    message: "scanf()/sscanf()/fscanf() with %s can overflow buffers. Use bounded formats like %Ns."
+    severity: WARNING
+    languages: [c, cpp]
+    pattern-regex: '\b(scanf|sscanf|fscanf)\s*\([^;]*%s'
+
+  - id: cpp-memcpy-raw
+    message: "Verify bounds when using memcpy()/memmove(); ensure size is validated."
+    severity: WARNING
+    languages: [c, cpp]
+    patterns:
+      - pattern: memcpy($DST, $SRC, $SIZE)
+      - pattern: memmove($DST, $SRC, $SIZE)
+
+  - id: cpp-system-call
+    message: "Use of system()/popen() is dangerous; validate inputs or avoid entirely."
+    severity: ERROR
+    languages: [c, cpp]
+    patterns:
+      - pattern: system($CMD)
+      - pattern: popen($CMD, $MODE)
+
+  - id: cpp-exec-call
+    message: "Use of exec* call; ensure arguments are validated and not attacker-controlled."
+    severity: WARNING
+    languages: [c, cpp]
+    pattern-regex: '\bexec(v|vp|vpe|ve)?\s*\('
+
+  - id: cpp-hardcoded-wifi-credentials
+    message: "Hardcoded WiFi credentials (WiFi.begin). Use secure provisioning or configuration instead."
+    severity: ERROR
+    languages: [cpp]
+    pattern: WiFi.begin($SSID, $PASSWORD)
+
+  - id: cpp-hardcoded-credential-literal
+    message: "Possible hardcoded credential in string literal."
+    severity: WARNING
+    languages: [cpp]
+    pattern-regex: '(?i)"[^"]*(password|passwd|pwd|secret|apikey|api_key|token|bearer)[^"]*"'
+
+  - id: cpp-hardcoded-admin
+    message: "String 'admin' present; check for hardcoded admin username/password in code or embedded HTML."
+    severity: INFO
+    languages: [cpp]
+    pattern-regex: '"admin"'
+
+  - id: cpp-hardcoded-ip
+    message: "Hardcoded IP address found."
+    severity: INFO
+    languages: [cpp]
+    pattern-regex: '"\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}"'
+
+  - id: cpp-hardcoded-http-url
+    message: "Hardcoded HTTP URL (non-TLS). Prefer HTTPS."
+    severity: WARNING
+    languages: [cpp]
+    pattern-regex: '"http://[^"]+"'
+
+  - id: cpp-insecure-rand
+    message: "rand()/srand() are not cryptographically secure."
+    severity: WARNING
+    languages: [c, cpp]
+    patterns:
+      - pattern: rand()
+      - pattern: srand($SEED)
+
+  - id: cpp-debug-logging-secret
+    message: "Potential logging of secrets; avoid printing passwords/tokens."
+    severity: WARNING
+    languages: [cpp]
+    pattern-regex: '(printf|Serial\.print|Serial\.println|std::cout)\s*<<\s*.*(password|passwd|secret|token|apikey)'
+
+  - id: cpp-assert-production
+    message: "assert() should not be used for security checks."
+    severity: INFO
+    languages: [c, cpp]
+    pattern: assert($COND)
+
+  - id: cpp-dangerous-c-style-cast
+    message: "C-style cast used. Prefer static_cast/dynamic_cast/reinterpret_cast."
+    severity: WARNING
+    languages: [cpp]
+    pattern-regex: '\([^)]+\)\s*[A-Za-z_][A-Za-z0-9_]*'
+
+  - id: cpp-new-no-delete
+    message: "Manual 'new' used; ensure matching delete and consider RAII."
+    severity: INFO
+    languages: [cpp]
+    pattern-regex: '\bnew\s+[^;]+;'
+
+  - id: cpp-unsafe-strncpy-usage
+    message: "Check strncpy() usage; destination may not be null-terminated."
+    severity: WARNING
+    languages: [c, cpp]
+    pattern: strncpy($DST, $SRC, $N)
+
+  - id: cpp-unencrypted-storage-hint
+    message: "Sensitive data storage detected; consider encryption."
+    severity: INFO
+    languages: [cpp]
+    pattern-regex: '(password|secret|token|key)[A-Za-z0-9_]*\s*='
+
+  - id: cpp-hardcoded-filesystem-path
+    message: "Hardcoded filesystem path; verify it is safe and not user-controlled."
+    severity: INFO
+    languages: [cpp]
+    pattern-regex: '"/(data|spiffs|littlefs|config|tmp)/[^"]*"'
+
+
+  - id: cpp-web-admin-endpoint
+    message: "Possible web admin or config endpoint; verify authentication."
+    severity: INFO
+    languages: [cpp]
+    pattern-regex: '"/admin"|"/config"|"/settings"'
+
+  - id: cpp-ota-update-endpoint
+    message: "Possible OTA/update endpoint; verify authentication and access control."
+    severity: WARNING
+    languages: [cpp]
+    pattern-regex: '"/update"'
+
+
+  - id: cpp-raw-file-write
+    message: "write()/fwrite() used; ensure size and return values are validated."
+    severity: INFO
+    languages: [c, cpp]
+    pattern-either:
+      - pattern: write($FD, $BUF, $SZ)
+      - pattern: fwrite($PTR, $SIZE, $NMEMB, $STREAM)
+
+  - id: cpp-chmod-world-writable
+    message: "chmod() setting world-writable permissions (0777)."
+    severity: WARNING
+    languages: [c, cpp]
+    pattern-regex: 'chmod\s*\([^,]+,\s*0?777\)'
+  
+  - id: cpp-fopen-usage
+    message: "fopen() used; ensure the return value is checked and file permissions are safe."
+    severity: INFO
+    languages: [c, cpp]
+    pattern: fopen($PATH, $MODE)
+  
+  - id: cpp-curl-disable-cert-verify
+    message: "curl: SSL verification disabled (CURLOPT_SSL_VERIFYPEER/VERIFYHOST)."
+    severity: WARNING
+    languages: [c, cpp]
+    pattern-regex: 'CURLOPT_SSL_VERIFY(PEER|HOST)\s*,\s*0'
+
+
+  - id: cpp-weak-hash-md5-sha1
+    message: "Use of weak cryptographic hash (MD5/SHA1). Avoid for security-sensitive purposes."
+    severity: WARNING
+    languages: [c, cpp]
+    pattern-regex: '\b(MD5|md5|SHA1|sha1)\b'
+
+
+  - id: cpp-unsafe-tmp-file
+    message: "Use of insecure temporary file APIs (tmpnam/mktemp)."
+    severity: WARNING
+    languages: [c, cpp]
+    pattern-either:
+      - pattern: tmpnam($BUF)
+      - pattern: mktemp($TEMPLATE)
+  
+
+  
