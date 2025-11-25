@@ -305,3 +305,4 @@ SensorWatch/
 | **Total (Approx.)**  | **14**    | **~4,800**     | Overall estimated codebase size          |
 
 
+<img width="1596" height="963" alt="image" src="https://github.com/user-attachments/assets/d57c43a5-747e-46cb-ad67-d3d6f868f9ae" />
