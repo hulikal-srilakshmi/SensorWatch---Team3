@@ -336,7 +336,7 @@ All vulnerabilities include **severity**, **count**, **CVSS**, **impact**, and *
 
 ---
 
-## Vulnerability Summary (Table)
+## Vulnerability Summary 
 
 | Vulnerability Name | Severity | Count | CVSS | Impact | Recommendation |
 | --- | --- | --- | --- | --- | --- |
