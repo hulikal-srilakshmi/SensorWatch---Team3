@@ -55,28 +55,37 @@ Each Semgrep match is translated here into a standardized SAST report entry:
 - Exact Evidence (taken from Semgrep output)  
 - Recommended Remediation  
 
-No evidence is rewritten — evidence comes from Semgrep output exactly.
+This document contains:
+- CRITICAL Findings  
+- HIGH Findings  
+- MEDIUM Findings  
+- LOW Findings  
+
+All evidence comes directly from:
+- semgrep-results.txt  
+- ota-results.txt  
+- web-results.txt  
+- ps-results.txt  
+
+No assumptions. No manual vulnerabilities added.
 
 ---
 
-# 4. Detailed Findings by Rule (Industry Format)
+# CRITICAL SEVERITY FINDINGS
+
+# Category: OTA Security
 
 ---
 
-## 4.1 Hardcoded Credentials  
-### Rule: `SensorWatch.cpp-hardcoded-credential-literal`  
-**Severity:** HIGH  
-**CWE:** CWE-798 – Use of Hardcoded Credentials  
-**CVSS:** 7.5 (High)
+## 1. OTA Update Endpoint  
+### Rule: `SensorWatch.cpp-ota-update-endpoint`
+**Severity:** CRITICAL  
+**CWE:** CWE-306 – Missing Authentication  
+**CVSS:** 9.8  
 
-**Description:**  
-Semgrep detected literal credential-like strings inside firmware code.
+**Location:** `SensorWatch/src/main.cpp`
 
-**Impact:**  
-Attackers with access to the firmware can extract keys and gain unauthorized access to services.
-
-**Evidence (from Semgrep):**
+**Evidence:**
 ```text
-1024┆ String wifiSSID = "guest";
-1025┆ String wifiPassword = "password";
-2429┆ File wifiFile = LittleFS.open("/wifi_config.json", "w");
+1972 server.on("/update", HTTP_POST,
+1994 if (!Update.begin(UPDATE_SIZE_UNKNOWN)) {
