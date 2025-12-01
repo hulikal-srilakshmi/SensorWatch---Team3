@@ -260,7 +260,7 @@ Enforce authentication and sanitize file paths.
 
 
 ## 10. Remote Restart
-### Rule: SensorWatch.ota-remote-restart
+
 
 **Severity:** HIGH  
 **CWE:** CWE-269  
@@ -268,9 +268,11 @@ Enforce authentication and sanitize file paths.
 
 **Location:** SensorWatch/src/main.cpp
 
-**Evidence:**  
+**Evidence:** 
+```text
 2015 ESP.restart();  
 2527 ESP.restart();
+```
 
 **Impact:**  
 Attackers could remotely reboot the device, leading to denial-of-service.
