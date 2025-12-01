@@ -78,7 +78,7 @@ No assumptions. No manual vulnerabilities added.
 ---
 
 ## 1. OTA Update Endpoint  
-### Rule: `SensorWatch.cpp-ota-update-endpoint`
+
 **Severity:** CRITICAL  
 **CWE:** CWE-306 – Missing Authentication  
 **CVSS:** 9.8  
@@ -100,7 +100,7 @@ Implement firmware signature verification (RSA/ECDSA) and reject any unauthentic
 
 
 ## 2. OTA Update Logic (Begin / Write / End)
-### Rule: SensorWatch.cpp-ota-update-api-usage
+
 
 **Severity:** CRITICAL  
 **CWE:** CWE-494 – Download of Code Without Verification  
