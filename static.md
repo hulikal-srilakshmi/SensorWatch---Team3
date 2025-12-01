@@ -140,3 +140,24 @@ Allows complete filesystem wipe without authorization, leading to total data los
 
 **Recommendation:** 
 Restrict formatting operations to authenticated admin-level access.
+
+
+15. Memory Allocation via new
+Rule: SensorWatch.cpp-new-no-delete
+
+Severity: LOW
+CWE: CWE-401
+CVSS: 3.1
+
+Location: SensorWatch/src/main.cpp
+
+Evidence:
+```text
+(Semgrep flagged 11 uses of 'new')
+```
+Impact:
+Potential memory leaks.
+
+Recommendation:
+Use RAII / smart pointers.
+
