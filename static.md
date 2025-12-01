@@ -71,9 +71,9 @@ No assumptions. No manual vulnerabilities added.
 
 ---
 
-# CRITICAL SEVERITY FINDINGS
+## CRITICAL SEVERITY FINDINGS
 
-# Category: OTA Security
+## Category: OTA Security
 
 ---
 
