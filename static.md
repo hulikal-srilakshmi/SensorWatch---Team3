@@ -203,8 +203,9 @@ Use secure setup flow and store credentials encrypted.
 **Location:** SensorWatch/src/main.cpp
 
 **Evidence:**  
+```text
 1026 const char* remoteServerName = "http://ecoforces.com/update_db.php";
-
+```
 **Impact:**  
 HTTP exposes API key and sensor data to MITM attacks.
 
@@ -244,11 +245,12 @@ Require authentication for delete operations.
 **Location:** SensorWatch/src/main.cpp
 
 **Evidence:**  
+```text
 1264 File file = LittleFS.open("/labels.json", "w");  
 2303 File file = LittleFS.open("/data.json", "w");  
 2312 File file = LittleFS.open("/data.json", "a");  
 2429 File wifiFile = LittleFS.open("/wifi_config.json", "w");
-
+```
 **Impact:**  
 Potential unauthorized file overwrite or tampering.
 
