@@ -89,3 +89,35 @@ No assumptions. No manual vulnerabilities added.
 ```text
 1972 server.on("/update", HTTP_POST,
 1994 if (!Update.begin(UPDATE_SIZE_UNKNOWN)) {
+
+
+**Impact:** 
+Firmware flashing occurs without cryptographic integrity checks. Attackers can upload malicious firmware that fully compromises system integrity.
+
+**Recommendation:**  
+Implement firmware signature verification (RSA/ECDSA) and reject any unauthenticated or tampered images.
+
+
+
+## 2. OTA Update Logic (Begin / Write / End)
+### Rule: SensorWatch.cpp-ota-update-api-usage
+
+**Severity:** CRITICAL  
+**CWE:** CWE-494 – Download of Code Without Verification  
+**CVSS:** 9.8  
+
+**Location:** SensorWatch/src/main.cpp
+
+**Evidence:**
+```text
+1994 if (!Update.begin(UPDATE_SIZE_UNKNOWN)) {
+2003 if (Update.write(data, len) != len) {
+2010 if (Update.end(true)) {
+
+**Impact:**  
+Firmware flashing occurs without cryptographic integrity checks. Attackers can upload malicious firmware that fully compromises system integrity.
+
+**Recommendation:**  
+Implement firmware signature verification (RSA/ECDSA) and reject any unauthenticated or tampered images.
+
+
