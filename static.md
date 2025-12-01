@@ -146,7 +146,7 @@ Restrict formatting operations to authenticated admin-level access.
 
 ## HIGH SEVERITY FINDINGS
 
-# Category: Credential Issues
+## Category: Credential Issues
 
 ---
 
@@ -213,7 +213,7 @@ Switch to HTTPS and validate the server certificate.
 
 
 
-# Category: Filesystem Controls
+## Category: Filesystem Controls
 ## 7. File Delete Operations
 
 
@@ -234,6 +234,26 @@ Attackers can delete user or system configuration files.
 Require authentication for delete operations.
 
 
+## 8. File Write Operations
+### Rule: SensorWatch.ota-fs-open-write
+
+**Severity:** HIGH  
+**CWE:** CWE-73  
+**CVSS:** 7.5  
+
+**Location:** SensorWatch/src/main.cpp
+
+**Evidence:**  
+1264 File file = LittleFS.open("/labels.json", "w");  
+2303 File file = LittleFS.open("/data.json", "w");  
+2312 File file = LittleFS.open("/data.json", "a");  
+2429 File wifiFile = LittleFS.open("/wifi_config.json", "w");
+
+**Impact:**  
+Potential unauthorized file overwrite or tampering.
+
+**Recommendation:**  
+Enforce authentication and sanitize file paths.
 
 
 
