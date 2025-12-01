@@ -151,7 +151,7 @@ Restrict formatting operations to authenticated admin-level access.
 ---
 
 ## 4. Hardcoded Credentials  
-### Rule: `SensorWatch.cpp-hardcoded-credential-literal`
+
 **Severity:** HIGH  
 **CWE:** CWE-798  
 **CVSS:** 7.5  
@@ -195,7 +195,6 @@ Use secure setup flow and store credentials encrypted.
 
 
 ## 6. Hardcoded HTTP URL
-### Rule: SensorWatch.cpp-hardcoded-http-url
 
 **Severity:** HIGH  
 **CWE:** CWE-319  
@@ -211,7 +210,6 @@ HTTP exposes API key and sensor data to MITM attacks.
 
 **Recommendation:**  
 Switch to HTTPS and validate the server certificate.
-
 
 
 
