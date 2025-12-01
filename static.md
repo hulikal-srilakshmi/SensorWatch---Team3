@@ -144,7 +144,7 @@ Restrict formatting operations to authenticated admin-level access.
 
 
 
-# HIGH SEVERITY FINDINGS
+## HIGH SEVERITY FINDINGS
 
 # Category: Credential Issues
 
