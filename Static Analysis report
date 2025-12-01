@@ -1,1 +1,133 @@
+# SensorWatch Firmware – Static Analysis Report
+### Generated from Semgrep Results Only  
+### Tool: Semgrep (custom ruleset: SensorWatch.*)
+
+This report summarizes patterns detected by Semgrep during static analysis of the SensorWatch ESP32 firmware.
+
+⚠️ **Important:**  
+- No manual assumptions.  
+- No extra vulnerabilities invented.  
+- Everything below comes **only** from these result files:
+  - `ota-results.txt`
+  - `web-results.txt`
+  - `semgrep-results.txt`
+  - `ps-results.txt`
+
+---
+
+## 1. Executive Summary
+
+Semgrep detected several categories of issues, including:
+
+- Hardcoded credentials and WiFi configuration literals.
+- Hardcoded HTTP URLs (non-HTTPS).
+- OTA update routes and filesystem admin routes.
+- Files being opened/written/deleted in LittleFS.
+- Use of OTA update APIs (`Update.begin`, `Update.write`, `Update.end`).
+- WebSocket endpoint declaration.
+- Inline `<script>` blocks in HTML files.
+- C-style casts and `new` allocations in C++.
+- PowerShell-related patterns (weak hashes, HTTP URLs, Invoke-Expression, etc.) in your PS rules/results.
+
+This report is **static analysis only**. These are **findings to review**, not confirmed exploited vulnerabilities.
+
+---
+
+## 2. Scope
+
+### In-scope (based on Semgrep output)
+
+- `SensorWatch/src/main.cpp`
+- `SensorWatch/data/imu.html`
+- `SensorWatch/lib/IMUFX_UI/assets/imu.html`
+- PowerShell-related result entries from `ps-results.txt` (as captured by Semgrep rules)
+
+### Out of scope
+
+- No runtime / dynamic testing.
+- No manual exploitation attempts.
+- No assumptions beyond what Semgrep results explicitly show.
+
+---
+
+## 3. Methodology
+
+- Semgrep was run with a custom ruleset using the prefix **`SensorWatch.*`**.
+- Results were exported to:
+  - `ota-results.txt`
+  - `web-results.txt`
+  - `semgrep-results.txt`
+  - `ps-results.txt`
+- All findings in this report come from those result files, using:
+  - Rule ID
+  - Rule description
+  - File path
+  - Line excerpts Semgrep printed as context.
+
+No new rules or external tools are referenced here.
+
+---
+
+## 4. Findings Summary
+
+This table is **directly derived** from the four Semgrep results files:
+
+| Rule ID                                   | Description (from rule)                                                                                                 | Example File                      | Matches |
+|-------------------------------------------|--------------------------------------------------------------------------------------------------------------------------|-----------------------------------|---------|
+| SensorWatch.cpp-dangerous-c-style-cast    | C-style cast used. Prefer static_cast/dynamic_cast/reinterpret_cast.                                                    | `SensorWatch\src\main.cpp`        | 25      |
+| SensorWatch.cpp-exec-call                 | Use of exec* call; ensure arguments are validated and not attacker-controlled.                                          | `SensorWatch\src\main.cpp`        | 1       |
+| SensorWatch.cpp-hardcoded-credential-literal | Possible hardcoded credential in string literal.                                                                      | `SensorWatch\src\main.cpp`        | 26      |
+| SensorWatch.cpp-hardcoded-http-url        | Hardcoded HTTP URL (non-TLS). Prefer HTTPS.                                                                             | `SensorWatch\src\main.cpp`        | 1       |
+| SensorWatch.cpp-hardcoded-ip              | Hardcoded IP address found.                                                                                             | `SensorWatch\src\main.cpp`        | 2       |
+| SensorWatch.cpp-hardcoded-wifi-credentials | Hardcoded WiFi credentials detected; prefer provisioning or configuration instead.                                     | `SensorWatch\src\main.cpp`        | 6       |
+| SensorWatch.cpp-new-no-delete             | Manual 'new' used; ensure matching delete and consider RAII.                                                            | `SensorWatch\src\main.cpp`        | 11      |
+| SensorWatch.cpp-ota-update-endpoint       | Possible OTA/update endpoint detected; ensure authentication and access control.                                         | `SensorWatch\src\main.cpp`        | 2       |
+| SensorWatch.cpp-unencrypted-storage-hint  | Sensitive data storage pattern detected; consider encryption.                                                           | `SensorWatch\src\main.cpp`        | 5       |
+| SensorWatch.html-inline-script-block      | Inline `<script>` block detected. Review for dynamic data and XSS risks.                                                | `SensorWatch\data\imu.html`       | 2       |
+| SensorWatch.ota-fs-admin-route            | Filesystem/admin HTTP route detected; verify strong authentication before allowing format/delete/file operations.       | `SensorWatch\src\main.cpp`        | 1       |
+| SensorWatch.ota-fs-delete-file            | Filesystem file delete detected; ensure this operation is not exposed to unauthenticated or low-privilege users.        | `SensorWatch\src\main.cpp`        | 2       |
+| SensorWatch.ota-fs-open-write             | Filesystem open() in write/append mode; confirm path and data are validated and authorized.                             | `SensorWatch\src\main.cpp`        | 4       |
+| SensorWatch.ota-remote-restart            | ESP.restart() used; if reachable from web/remote input, ensure proper authorization.                                    | `SensorWatch\src\main.cpp`        | 2       |
+| SensorWatch.ota-serverindex-route         | OTA '/serverIndex' route detected; verify that only authenticated users can reach the OTA UI.                           | `SensorWatch\src\main.cpp`        | 1       |
+| SensorWatch.ota-spiffs-littlefs-format    | SPIFFS/LittleFS format detected; ensure only trusted/admin users can trigger this.                                      | `SensorWatch\src\main.cpp`        | 2       |
+| SensorWatch.ota-update-api-usage          | Use of OTA Update API (Update.begin/write/end); confirm firmware upload path is authenticated and size/integrity validated. | `SensorWatch\src\main.cpp`    | 2       |
+| SensorWatch.ota-update-begin-without-hash-comment | OTA Update.begin() detected; check that firmware integrity (hash/MD5/signature) is validated before flashing.       | `SensorWatch\src\main.cpp`        | 1       |
+| SensorWatch.ota-update-route              | OTA '/update' HTTP route detected; ensure this endpoint is authenticated and not exposed to unauthenticated users.      | `SensorWatch\src\main.cpp`        | 1       |
+| SensorWatch.ota-websocket-channel         | WebSocket object detected; if used for control/status, ensure auth and origin protections are in place.                 | `SensorWatch\src\main.cpp`        | 1       |
+| SensorWatch.ps-hardcoded-credential       | Possible hardcoded credential in PowerShell script.                                                                     | (PS results context)              | 2       |
+| SensorWatch.ps-http-url                   | HTTP (non-HTTPS) URL used. Prefer HTTPS for integrity and confidentiality.                                              | (PS results context)              | 4       |
+| SensorWatch.ps-invoke-command-remote      | Invoke-Command used for remote execution; ensure endpoints and scripts are authenticated and authorized.                | (PS results context)              | 1       |
+| SensorWatch.ps-invoke-expression          | Invoke-Expression is dangerous and can lead to code injection. Avoid or strictly control input.                         | (PS results context)              | 1       |
+| SensorWatch.ps-md5-sha1-weak-hash         | MD5/SHA1 hash usage detected; these are considered weak and should be replaced.                                         | (PS results context)              | 1       |
+| SensorWatch.ps-start-process-unvalidated  | Start-Process used; verify command/arguments are not built from untrusted input.                                        | (PS results context)              | 1       |
+
+---
+
+## 5. Detailed Findings
+
+**Note:**  
+Each section maps 1:1 to a Semgrep rule.  
+Descriptions come from the rule comments / messages; evidence is taken from the result files.
+
+---
+
+### 5.1 C++ / Firmware Findings (`SensorWatch\src\main.cpp`)
+
+---
+
+#### 5.1.1 `SensorWatch.cpp-dangerous-c-style-cast`
+
+**Rule description:**  
+> C-style cast used. Prefer static_cast/dynamic_cast/reinterpret_cast.
+
+**Matches:** 25  
+**File:** `SensorWatch\src\main.cpp`  
+
+**Evidence (excerpt from Semgrep context):**
+```text
+14┆ * All HTML pages are stored in flash (using PROGMEM) to conserve RAM.
+⋮┆----------------------------------------
+58┆ // Try (and retry) esp_event handler registration. Some Arduino cores do not
+⋮┆----------------------------------------
+60┆ // ESP_ERR_INVALID_STATE. Call this after WiFi.mode(...) to increase chances
 
