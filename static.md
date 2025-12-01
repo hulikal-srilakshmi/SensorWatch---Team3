@@ -122,7 +122,6 @@ Implement firmware signature verification (RSA/ECDSA) and reject any unauthentic
 
 
 ## 3. Filesystem Format Operations
-### Rule: SensorWatch.ota-spiffs-littlefs-format
 
 **Severity:** CRITICAL  
 **CWE:** CWE-912 – Missing Authorization for Critical Function  
