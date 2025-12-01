@@ -142,6 +142,34 @@ Allows complete filesystem wipe without authorization, leading to total data los
 Restrict formatting operations to authenticated admin-level access.
 
 
+
+
+# HIGH SEVERITY FINDINGS
+
+# Category: Credential Issues
+
+---
+
+## 4. Hardcoded Credentials  
+### Rule: `SensorWatch.cpp-hardcoded-credential-literal`
+**Severity:** HIGH  
+**CWE:** CWE-798  
+**CVSS:** 7.5  
+
+**Location:** `SensorWatch/src/main.cpp`
+
+**Evidence:**
+```text
+1024 String wifiSSID = "guest";
+1025 String wifiPassword = "password";
+2429 File wifiFile = LittleFS.open("/wifi_config.json", "w");
+```
+**Impact:**  
+Credentials stored in firmware can be extracted and abused.
+
+**Recommendation:** 
+Remove credential literals; use secure provisioning.
+
 15. Memory Allocation via new
 Rule: SensorWatch.cpp-new-no-delete
 
