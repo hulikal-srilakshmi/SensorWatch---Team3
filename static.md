@@ -170,6 +170,31 @@ Credentials stored in firmware can be extracted and abused.
 **Recommendation:** 
 Remove credential literals; use secure provisioning.
 
+
+**5. Hardcoded WiFi Credentials**
+**Rule:** SensorWatch.cpp-hardcoded-wifi-credentials
+
+**Severity:** HIGH  
+**CWE:** CWE-259  
+**CVSS:** 7.5  
+
+**Location:** SensorWatch/src/main.cpp
+
+**Evidence:**  
+1024 String wifiSSID = "guest";  
+1025 String wifiPassword = "password";  
+2231 String httpRequestData = "api_key=" + String(remoteApiKey) + "&data=" + jsonData;
+
+**Impact:**  
+Device compromise is trivial with default WiFi credentials.
+
+**Recommendation:**  
+Use secure setup flow and store credentials encrypted.
+
+
+
+
+
 15. Memory Allocation via new
 Rule: SensorWatch.cpp-new-no-delete
 
