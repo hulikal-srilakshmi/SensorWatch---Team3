@@ -171,8 +171,8 @@ Credentials stored in firmware can be extracted and abused.
 Remove credential literals; use secure provisioning.
 
 
-**5. Hardcoded WiFi Credentials**
-**Rule:** SensorWatch.cpp-hardcoded-wifi-credentials
+## 5. Hardcoded WiFi Credentials
+### Rule: SensorWatch.cpp-hardcoded-wifi-credentials
 
 **Severity:** HIGH  
 **CWE:** CWE-259  
