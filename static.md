@@ -194,6 +194,56 @@ Use secure setup flow and store credentials encrypted.
 
 
 
+## 6. Hardcoded HTTP URL
+### Rule: SensorWatch.cpp-hardcoded-http-url
+
+**Severity:** HIGH  
+**CWE:** CWE-319  
+**CVSS:** 7.4  
+
+**Location:** SensorWatch/src/main.cpp
+
+**Evidence:**  
+1026 const char* remoteServerName = "http://ecoforces.com/update_db.php";
+
+**Impact:**  
+HTTP exposes API key and sensor data to MITM attacks.
+
+**Recommendation:**  
+Switch to HTTPS and validate the server certificate.
+
+
+
+
+# Category: Filesystem Controls
+## 7. File Delete Operations
+
+
+**Severity:** HIGH  
+**CWE:** CWE-732  
+**CVSS:** 7.8  
+
+**Location:** SensorWatch/src/main.cpp
+
+**Evidence:**  
+2138 if (LittleFS.exists(path)) LittleFS.remove(path);  
+2955 if (LittleFS.remove(filename)) {
+
+**Impact:**  
+Attackers can delete user or system configuration files.
+
+**Recommendation:**  
+Require authentication for delete operations.
+
+
+
+
+
+
+
+
+
+
 
 
 15. Memory Allocation via new
