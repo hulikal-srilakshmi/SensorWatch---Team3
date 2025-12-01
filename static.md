@@ -181,10 +181,11 @@ Remove credential literals; use secure provisioning.
 **Location:** SensorWatch/src/main.cpp
 
 **Evidence:**  
+```text
 1024 String wifiSSID = "guest";  
 1025 String wifiPassword = "password";  
 2231 String httpRequestData = "api_key=" + String(remoteApiKey) + "&data=" + jsonData;
-
+```
 **Impact:**  
 Device compromise is trivial with default WiFi credentials.
 
