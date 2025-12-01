@@ -225,9 +225,10 @@ Switch to HTTPS and validate the server certificate.
 **Location:** SensorWatch/src/main.cpp
 
 **Evidence:**  
+```text
 2138 if (LittleFS.exists(path)) LittleFS.remove(path);  
 2955 if (LittleFS.remove(filename)) {
-
+```
 **Impact:**  
 Attackers can delete user or system configuration files.
 
