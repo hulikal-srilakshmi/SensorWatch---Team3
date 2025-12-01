@@ -121,3 +121,23 @@ Firmware flashing occurs without cryptographic integrity checks. Attackers can u
 Implement firmware signature verification (RSA/ECDSA) and reject any unauthenticated or tampered images.
 
 
+## 3. Filesystem Format Operations
+### Rule: SensorWatch.ota-spiffs-littlefs-format
+
+**Severity:** CRITICAL  
+**CWE:** CWE-912 – Missing Authorization for Critical Function  
+**CVSS:** 9.1  
+
+**Location:** SensorWatch/src/main.cpp
+
+**Evidence:**
+```text
+1276 if (LittleFS.format()) {
+2157 if (LittleFS.format()) {
+```
+
+**Impact:**  
+Allows complete filesystem wipe without authorization, leading to total data loss and device instability.
+
+**Recommendation:** 
+Restrict formatting operations to authenticated admin-level access.
