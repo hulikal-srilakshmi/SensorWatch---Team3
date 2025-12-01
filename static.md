@@ -89,7 +89,7 @@ No assumptions. No manual vulnerabilities added.
 ```text
 1972 server.on("/update", HTTP_POST,
 1994 if (!Update.begin(UPDATE_SIZE_UNKNOWN)) {
-
+```
 
 **Impact:** 
 Firmware flashing occurs without cryptographic integrity checks. Attackers can upload malicious firmware that fully compromises system integrity.
@@ -113,7 +113,7 @@ Implement firmware signature verification (RSA/ECDSA) and reject any unauthentic
 1994 if (!Update.begin(UPDATE_SIZE_UNKNOWN)) {
 2003 if (Update.write(data, len) != len) {
 2010 if (Update.end(true)) {
-
+```
 **Impact:**  
 Firmware flashing occurs without cryptographic integrity checks. Attackers can upload malicious firmware that fully compromises system integrity.
 
