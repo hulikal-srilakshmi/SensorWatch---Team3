@@ -237,7 +237,6 @@ Require authentication for delete operations.
 
 
 ## 8. File Write Operations
-### Rule: SensorWatch.ota-fs-open-write
 
 **Severity:** HIGH  
 **CWE:** CWE-73  
@@ -260,6 +259,24 @@ Enforce authentication and sanitize file paths.
 
 
 
+## 10. Remote Restart
+### Rule: SensorWatch.ota-remote-restart
+
+**Severity:** HIGH  
+**CWE:** CWE-269  
+**CVSS:** 7.5  
+
+**Location:** SensorWatch/src/main.cpp
+
+**Evidence:**  
+2015 ESP.restart();  
+2527 ESP.restart();
+
+**Impact:**  
+Attackers could remotely reboot the device, leading to denial-of-service.
+
+**Recommendation:**  
+Require authentication for restart endpoints.
 
 
 
